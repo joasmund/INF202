@@ -1,10 +1,11 @@
 \documentclass[a4paper,12pt]{article}
 \usepackage[utf8]{inputenc} % For encoding
-\usepackage{amsmath}        % For math formatting (optional)
-\usepackage{geometry}       % To adjust margins
-
-% Set margins (optional, adjust as needed)
-\geometry{top=2cm, bottom=2cm, left=2.5cm, right=2.5cm}
+\usepackage{amsmath,amssymb} % Math symbols
+\usepackage{graphicx} % Include graphics
+\usepackage{hyperref} % Hyperlinks
+\usepackage{geometry} % Page layout
+\usepackage{titlesec} % Custom sections
+\geometry{margin=1in}
 
 \begin{document}
 
@@ -16,8 +17,8 @@
     \vspace{0.5cm}
     {\Large\itshape Simulating Oil Spills with Python \par} % Subtitle
     \vspace{2cm}
-    {\Large Jørgen Asmundvaag \par} % Author 1
-    {\Large Ivar Ødegårdstuen Eftedal \par} % Author 2 (add more as needed)
+    {\Large J\o rgen Asmundvaag \par} % Author 1
+    {\Large Ivar \O deg\aa rdstuen Eftedal \par} % Author 2 (add more as needed)
     {\Large Sebastian Sverkmo \par} 
     \vspace{1cm}
     {\large INF202, NMBU \par} % Optional
@@ -26,8 +27,55 @@
     \vspace*{1cm}
 \end{titlepage}
 
+\tableofcontents
+\newpage
+
 % Start of content
 \section*{Introduction}
-This is the beginning of your document.
+In this report you will find our solution on how to simulate the flow of oil spills. 
+During the last two weeks, we have used Python
+
+\section*{Overall problem}
+The problem for the project is an oil spill simulation. In this project, we are tasked with simulating the flow of an oil spill.
+
+% Section 1
+\section{Methodology}
+Describe the methods or approach used in your work.
+
+
+
+% Subsection
+\subsection{Subsection Title}
+Provide details about specific aspects of the methodology.
+
+% Section 2
+\section{Results}
+Present your findings with tables, figures, or equations.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{example-image}
+    \caption{Example Figure Caption}
+    \label{fig:example}
+\end{figure}
+
+\begin{equation}
+    E = mc^2
+\end{equation}
+
+% Section 3
+\section{Discussion}
+Interpret your results and discuss their significance.
+
+% Section 4
+\section{Conclusion}
+Summarize your work and propose future directions.
+
+% References
+\section*{References}
+\begin{itemize}
+    \item Author, A. (Year). Title. \textit{Journal}, Volume(Issue), Pages. DOI/URL
+    \item Another reference here.
+\end{itemize}
 
 \end{document}
