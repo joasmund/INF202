@@ -161,11 +161,3 @@ class CellFactory:
 # Running the implementation with cells having indexes ...
 mesh = Mesh(meshName)
 # mesh.print_cell_info([1, 2, 3, 4, 5, 6, 7, 8, 9, 55, 56, 57, 58])
-
-for i in range(1000):
-    mesh.print_cell_info([i])
-
-
-for i in range(1000):
-    mesh.print_cell_info([i])
-    mesh.print_cell_info([i])
