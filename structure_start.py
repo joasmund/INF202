@@ -116,11 +116,45 @@ class Triangle(Cell):
     def __init__(self, pts, idx) -> None:
         super().__init__(pts, idx)
 
+    def line_normals(self, points):
+        """
+        Calculate the normal vector for each edge of the triangle.
+        :param points: List of all points in the mesh.
+        :return: List of normal vectors for each edge of the triangle.
+        """
+        point_coords = points[self._pointIds]
+        normals = []
+
+        for i in range(3):  # Loop over the edges of the triangle
+            p1 = point_coords[i]
+            p2 = point_coords[(i + 1) % 3]  # Next point, wrapping around
+            edge_vector = p2 - p1
+
+            if len(edge_vector) == 2:  # 2D case
+                # Rotate by 90 degrees
+                normal = np.array([-edge_vector[1], edge_vector[0]])
+            elif len(edge_vector) == 3:  # 3D case
+                # Cross product with a vector normal to the triangle's plane
+                p3 = point_coords[(i + 2) % 3]
+                triangle_normal = np.cross(p2 - p1, p3 - p1)  # Plane normal
+                normal = np.cross(edge_vector, triangle_normal)
+            else:
+                raise ValueError("Unsupported dimensionality")
+
+            # Normalize the normal vector
+            normals.append(normal / np.linalg.norm(normal))
+
+        return normals
+
     def __str__(self) -> str:
         """
         Prints out "Triangle" and then all neighbors
         """
-        return f"Triangle with id {self._idx}: {self._neighbors} Midpoint of triangle is located at {self.midpoint(m._points)}"
+        normals = self.line_normals(m._points)
+        normals_str = ", ".join(
+            f"Normal {i}: {normals[i]}" for i in range(len(normals))
+        )
+        return f"Triangle with id {self._idx}: {self._neighbors} Midpoint of triangle is located at {self.midpoint(m._points)}. {normals_str}"
 
 
 m = Mesh(mshName)
