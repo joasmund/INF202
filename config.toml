@@ -6,6 +6,7 @@ tEnd = 0.2   # End time
 
 [geometry]
 meshName = "bay.msh"
+meshName2 = "simple.msh"
 borders = [[0.0, 0.45], [0.0, 0.2]] # Defines where fish are located
 xStar = [0.35, 0.45]
 
