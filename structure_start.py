@@ -76,8 +76,14 @@ class Cell(ABC):
                 self._neighbors.append(cell._idx)
         pass
 
-    def midpoint(self):
-        return (1 / 3) * sum(self._pointIds)
+    def midpoint(self, points):
+        """
+        Compute the geometric midpoint of the cell.
+        :param points: List of all points in the mesh
+        :return: Numpy array representing the midpoint
+        """
+        point_coords = points[self._pointIds]
+        return np.mean(point_coords, axis=0)
 
     @abstractmethod
     def __str__(self) -> str:
@@ -103,7 +109,7 @@ class Line(Cell):
         """
         Prints out "Line" and then all neighbors
         """
-        return f"Line with id {self._idx}: {self._neighbors}"
+        return f"Line with id {self._idx}: {self._neighbors} Midpoint of line is located at {self.midpoint(m._points)}"
 
 
 class Triangle(Cell):
@@ -114,12 +120,12 @@ class Triangle(Cell):
         """
         Prints out "Triangle" and then all neighbors
         """
-        return f"Triangle with id {self._idx}: {self._neighbors}"
+        return f"Triangle with id {self._idx}: {self._neighbors} Midpoint of triangle is located at {self.midpoint(m._points)}"
 
 
 m = Mesh(mshName)
 m.computeNeighbors()
-cell = m._cells[3]
+cell = m._cells[299]
 points = m._points
 pts = cell._pointIds
 print(points[pts])
