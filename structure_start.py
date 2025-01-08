@@ -1,3 +1,4 @@
+import time
 from abc import ABC, abstractmethod
 
 import meshio
@@ -9,6 +10,8 @@ config = toml.load("config.toml")
 
 mshName = config["geometry"]["meshName"]
 mshName2 = config["geometry"]["meshName2"]
+
+startTime = time.time()
 
 
 class Mesh:
@@ -40,7 +43,7 @@ class Mesh:
 
     def computeNeighbors(self):
         """
-        Calls compute_neighbors function for every cell
+        Calls computeNeighbors function for every cell
         """
         for cell in self._cells:
             cell.computeNeighbors(self._cells)
@@ -113,8 +116,12 @@ class Triangle(Cell):
 
 m = Mesh(mshName)
 m.computeNeighbors()
-cell = m._cells[2990]
+cell = m._cells[3]
 points = m._points
 pts = cell._pointIds
 print(points[pts])
 print(cell)
+
+endTime = time.time()
+
+print(f"Execution time: {endTime - startTime} seconds")
