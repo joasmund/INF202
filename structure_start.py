@@ -76,6 +76,9 @@ class Cell(ABC):
                 self._neighbors.append(cell._idx)
         pass
 
+    def midpoint(self):
+        return (1 / 3) * sum(self._pointIds)
+
     @abstractmethod
     def __str__(self) -> str:
         return ""
