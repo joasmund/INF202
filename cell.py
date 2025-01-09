@@ -34,7 +34,7 @@ class Cell:
         elif dot_product < 0:
             direction = "Opposit of normal vector"
         else:
-            direction = "Orthogonal"
+            direction = "Orthogona"
         return dot_product, direction
     
 
