@@ -1,12 +1,14 @@
-def updateSolution(nu, v):
-    up = 0
+def updateSolution(nu, v, cells):
+    for i in range(cells):
+        uNew = []
+        u = []
+        up = 0
+        for i in range(100):
+            nu = "scaled outer normal in cell i at the interface to cell ngh"
+            v = "average of velocity in cell i and cell ngh"
+            up = "up - ∆t / Ai * FLUX(u[i], u[ngh], ν, v )"
 
-    for i in range(100):
-        nu = "scaled outer normal in cell i at the interface to cell ngh"
-        v = "average of velocity in cell i and cell ngh"
-        up = "up - ∆t / Ai * FLUX(u[i], u[ngh], ν, v )"
-
-    uNew[i] = u[i] - up
+        uNew[i] = u[i] - up
 
     return uNew[i]
 
