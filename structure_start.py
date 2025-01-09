@@ -152,7 +152,7 @@ class Triangle(Cell):
         """
         normals = self.line_normals(m._points)
         normals_str = ", ".join(
-            f"Normal {i}: {normals[i]}" for i in range(len(normals))
+            f"Normal {i + 1}: {normals[i]}" for i in range(len(normals))
         )
         return f"Triangle with id {self._idx}: {self._neighbors} Midpoint of triangle is located at {self.midpoint(m._points)}. {normals_str}"
 
