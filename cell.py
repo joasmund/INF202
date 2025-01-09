@@ -32,7 +32,7 @@ class Cell:
         
         scaled_normal = normal * edge_length
         
-        # Dot-production for direction 
+        # Dot-product for direction 
         dot_product = np.dot(vector, scaled_normal)
         if dot_product > 0:
             direction = m * dot_product, "Same as normal vector"
