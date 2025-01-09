@@ -5,7 +5,7 @@ class Cell:
         self.point = np.array(points)
         self.midpoint = self.midpoint_calc()
         self.triangle = self.triangle_calc()
-        self.norm = self.norm_calc()
+        self.norm = self.unit_normal_vector()
 
     def triangle_calc(self):
         x1, y1 = self.point[0]
@@ -16,23 +16,34 @@ class Cell:
     def midpoint_calc(self):
         return np.mean(self.point, axis=0)
     
-    def  norm_calc(self):
-        edge = np.roll(self.point, -1, axis = 0) - self.point
-        lenght = np.linalg.norm(edge, axis=1)
-        norm = np.column_stack([-edge[:,1], edge[:,0]]) / lenght[:, None]
+    def unit_normal_vector(point1, point2):
+        vector = point2 - point1
+        normal_vector = np.array([-vector[1], vector[0]])
+        return normal_vector / np.linalg.norm(normal_vector)
+    
+    def check_vector_direction(m, pov, es, ee): # midpoint, point on vector, edge start and edge end.
+        vector = np.array(pov) - np.array(m)
+        normal = unit_normal_vector(es, ee)
+        edge_length = np.linalg.norm(np.array(ee)-np.array(es))
+        
+        scaled_normal = normal * edge_length
 
-        scaled = norm * lenght[:, None]
-        return norm_calc, scaled
-
-
-
+        dot_product = np.dot(vector, scaled_normal)
+        if dot_product > 0:
+            direction = "Same as normal vector"
+        elif dot_product < 0:
+            direction = "Opposit of normal vector"
+        else:
+            direction = "Orthogonal"
+        return dot_product, direction
+    
 
 points = [(0, 0), (1, 0), (0, 1)]
 cell = Cell(points)
-norm_calc, scaled = cell.norm_calc()
+
 
 print("Midtpunkt:", cell.midpoint)  
 print("Areal:", cell.triangle)   
 print("Normale vektorer og skalerte vektorer:")
 for i, normal in enumerate(cell.norm[0], start=1): 
-    print(f"n{i}: {normal}")
+    print(f"n{i}: {normal}, scaled: {cell.norm[1][i-1]}")
