@@ -33,10 +33,11 @@ print(startposition)
 meshName = data["geometry"]["meshName"]
 print(meshName)
 
-#turn the floats into integers
+#turn the floats into integers #Dette blir feil
 starttime = int(starttime)
 endtime = int(endtime)
 steps = int(steps)
+
 
 for mesh in range (starttime, endtime, steps): #Kjører fra starttid til sluttid med steglengde steps #
 
@@ -66,7 +67,7 @@ cells = data.cells
 
 area = Triangle(cell)
 
-cell_neighbors = 
+cell_neighbors = x
 #Scaled outer normal in cell i at the interface to cell ngh
 my = 0
 
