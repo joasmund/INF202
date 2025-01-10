@@ -69,7 +69,6 @@ class Triangle(Cell):
     def line_normals(self):
         """
         Calculate the normal vector for each edge of the triangle.
-        :param points: List of all points in the mesh.
         :return: List of normal vectors for each edge of the triangle.
         """
         normals = []
