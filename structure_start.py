@@ -25,7 +25,7 @@ class Mesh:
 
         cells = msh.cells
 
-        self._points = msh.points  # List of all cells
+        self._points = msh.points  # List of all points
 
         cf = CellFactory()
 
@@ -33,7 +33,7 @@ class Mesh:
         cf.register("line", Line)
         cf.register("triangle", Triangle)
 
-        self._cells = []  # List of all points
+        self._cells = []  # List of all cells
 
         for cellForType in cells:
             cellType = cellForType.type  # Type of cell (Vertex, Line, Triangle)

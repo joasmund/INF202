@@ -8,7 +8,7 @@ class Cell(ABC):
         self._pointIds = pts  # Index (in the points list in the mesh) of points in cell
         self._idx = idx  # Cell id
         self._neighbors = []  # List of neighbors
-        self._points = []
+        self._points = points
 
     def computeNeighbors(self, cells):
         """
@@ -20,14 +20,12 @@ class Cell(ABC):
                 self._neighbors.append(cell._idx)
         pass
 
-    def midpoint(self, points):
+    @property
+    def point_coords(self):
         """
-        Compute the geometric midpoint of the cell.
-        :param points: List of all points in the mesh
-        :return: Numpy array representing the midpoint
+        Returns the coordinates of the points in the cell
         """
-        point_coords = points[self._pointIds]
-        return np.mean(point_coords, axis=0)
+        return [self._points[point] for point in self._pointIds]
 
     @abstractmethod
     def __str__(self) -> str:
@@ -35,8 +33,8 @@ class Cell(ABC):
 
 
 class Vertex(Cell):
-    def __init__(self, pts, idx) -> None:
-        super().__init__(pts, idx)
+    def __init__(self, pts, idx, points) -> None:
+        super().__init__(pts, idx, points)
 
     def __str__(self) -> str:
         """
@@ -46,32 +44,39 @@ class Vertex(Cell):
 
 
 class Line(Cell):
-    def __init__(self, pts, idx) -> None:
-        super().__init__(pts, idx)
+    def __init__(self, pts, idx, points) -> None:
+        super().__init__(pts, idx, points)
 
     def __str__(self) -> str:
         """
         Prints out "Line" and then all neighbors
         """
-        return f"Line with id {self._idx}: {self._neighbors} Midpoint of line is located at {self.midpoint}"
+        return f"Line with id {self._idx}: {self._neighbors}"
 
 
 class Triangle(Cell):
-    def __init__(self, pts, idx) -> None:
-        super().__init__(pts, idx)
+    def __init__(self, pts, idx, points) -> None:
+        super().__init__(pts, idx, points)
 
-    def line_normals(self, points):
+    def midpoint(self):
+        """
+        Compute the geometric midpoint of the cell.
+        :param points: List of all points in the mesh
+        :return: Numpy array representing the midpoint
+        """
+        return np.mean(self.point_coords, axis=0)
+
+    def line_normals(self):
         """
         Calculate the normal vector for each edge of the triangle.
         :param points: List of all points in the mesh.
         :return: List of normal vectors for each edge of the triangle.
         """
-        point_coords = points[self._pointIds]
         normals = []
 
         for i in range(3):  # Loop over the edges of the triangle
-            p1 = point_coords[i]
-            p2 = point_coords[(i + 1) % 3]  # Next point, wrapping around
+            p1 = self.point_coords[i]
+            p2 = self.point_coords[(i + 1) % 3]  # Next point, wrapping around
             edge_vector = p2 - p1
 
             if len(edge_vector) == 2:  # 2D case
@@ -79,7 +84,7 @@ class Triangle(Cell):
                 normal = np.array([-edge_vector[1], edge_vector[0]])
             elif len(edge_vector) == 3:  # 3D case
                 # Cross product with a vector normal to the triangle's plane
-                p3 = point_coords[(i + 2) % 3]
+                p3 = self.point_coords[(i + 2) % 3]
                 triangle_normal = np.cross(p2 - p1, p3 - p1)  # Plane normal
                 normal = np.cross(edge_vector, triangle_normal)
             else:
@@ -94,8 +99,10 @@ class Triangle(Cell):
         """
         Prints out "Triangle" and then all neighbors
         """
-        normals = self.line_normals(self._idx[self._pointIds])
+
+        normals = self.line_normals()
         normals_str = ", ".join(
             f"Normal {i + 1}: {normals[i]}" for i in range(len(normals))
         )
-        return f"Triangle with id {self._idx}: {self._neighbors} Midpoint of triangle is located at {self.midpoint(self._idx[self._pointIds])}. {normals_str}"
+
+        return f"Triangle with id {self._idx}: {self._neighbors} Midpoint of triangle is located at {self.midpoint()}. {normals_str}"

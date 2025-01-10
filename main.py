@@ -13,6 +13,7 @@ if __name__ == "__main__":
     mshName2 = config["geometry"]["meshName2"]
 
     startTime = time.time()
+
     m = Mesh(mshName)
     m.computeNeighbors()
     cell = m._cells[299]

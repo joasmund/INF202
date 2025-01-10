@@ -29,7 +29,7 @@ class Mesh:
             cellType = cellForType.type  # Type of cell (Vertex, Line, Triangle)
             for pts in cellForType.data:
                 idx = len(self._cells)
-                self._cells.append(cf(cellType, pts, idx))
+                self._cells.append(cf(cellType, pts, idx, self.coordinates))
 
     def computeNeighbors(self):
         """
@@ -37,3 +37,7 @@ class Mesh:
         """
         for cell in self._cells:
             cell.computeNeighbors(self._cells)
+
+    @property
+    def coordinates(self):
+        return self._points
