@@ -1,7 +1,10 @@
 import time
 
+import matplotlib.pyplot as plt
+import numpy as np
 import toml
 
+from src.Simulation.cells import Triangle
 from src.Simulation.mesh import Mesh
 
 if __name__ == "__main__":

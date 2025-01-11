@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+import matplotlib.pyplot as plt
 import numpy as np
 
 
@@ -98,7 +99,6 @@ class Triangle(Cell):
         """
         Prints out "Triangle" and then all neighbors
         """
-
         normals = self.line_normals()
         normals_str = ", ".join(
             f"Normal {i + 1}: {normals[i]}" for i in range(len(normals))
