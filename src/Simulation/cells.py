@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 
-import matplotlib.pyplot as plt
 import numpy as np
 
 
@@ -59,6 +58,20 @@ class Triangle(Cell):
     def __init__(self, pts, idx, points) -> None:
         super().__init__(pts, idx, points)
 
+    def area(self):
+
+        points_3x3 = np.vstack(self.point_coords)  # Stack the arrays vertically
+        # Turn the coordinates into a 2D array
+        coords_2d = points_3x3[:, :2]
+        # Extract the points
+        x1, y1 = coords_2d[0]
+        x2, y2 = coords_2d[1]
+        x3, y3 = coords_2d[2]
+
+        # Compute the area using the determinant formula
+        area = 0.5 * abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2))
+        return area
+
     def midpoint(self):
         """
         Compute the geometric midpoint of the cell.
@@ -104,4 +117,4 @@ class Triangle(Cell):
             f"Normal {i + 1}: {normals[i]}" for i in range(len(normals))
         )
 
-        return f"Triangle with id {self._idx}: {self._neighbors} Midpoint of triangle is located at {self.midpoint()}. {normals_str}"
+        return f"Triangle with id {self._idx}: {self._neighbors} Midpoint of triangle is located at {self.midpoint()}. {normals_str} {self.area()}"
