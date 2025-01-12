@@ -15,7 +15,7 @@ if __name__ == "__main__":
     startTime = time.time()
 
     m = Mesh(mshName)
-    m.computeNeighbors()
+    # m.computeNeighbors()
 
     cells = []
     for i in range(10000):

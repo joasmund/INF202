@@ -128,8 +128,14 @@ class Triangle(Cell):
         Prints out "Triangle" and then all neighbors
         """
         normals = self.line_normals()
-        normals_str = ", ".join(
+        normals_str = "\n                              ".join(
             f"Normal {i + 1}: {normals[i]}" for i in range(len(normals))
         )
 
-        return f"Triangle with id {self._idx}: {self._neighbors} Midpoint of triangle is located at {self.midpoint()}. {normals_str}. Area of triangle is {self.area()}"
+        return f"""
+Triangle with id: {self._idx}
+Has neihgbors: {self._neighbors}
+Midpoint of triangle is located at {self.midpoint()}.
+The triangles normal vectors: {normals_str}.
+Area of triangle is {self.area()}
+"""

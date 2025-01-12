@@ -1,8 +1,11 @@
 import meshio
+import numpy as np
+import toml
 
 from .cells import Line, Triangle, Vertex
 from .solver import CellFactory
 
+x_star = config[]
 
 class Mesh:
     def __init__(self, mshName) -> None:
@@ -15,7 +18,11 @@ class Mesh:
 
         cells = msh.cells
 
-        self._points = msh.points  # List of all points
+        self._points = np.array(
+            np.vstack(msh.points)[:, :2], dtype=np.float64
+        )  # List of all points
+
+        # self._points = np.vstack(msh.points)[:, :2]
 
         cf = CellFactory()
 
@@ -35,9 +42,12 @@ class Mesh:
         """
         Calls computeNeighbors function for every cell
         """
-        for cell in self._cells:
-            cell.computeNeighbors(self._cells)
+        [cell.computeNeighbors(self._cells) for cell in self._cells]
 
     @property
     def coordinates(self):
+        """
+        Turn the arrays into a single numpy array
+        and remove the z-axis
+        """
         return self._points
