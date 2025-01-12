@@ -1,10 +1,7 @@
 import time
 
-import matplotlib.pyplot as plt
-import numpy as np
 import toml
 
-from src.Simulation.cells import Triangle
 from src.Simulation.mesh import Mesh
 
 if __name__ == "__main__":
@@ -19,12 +16,16 @@ if __name__ == "__main__":
 
     m = Mesh(mshName)
     m.computeNeighbors()
-    cell = m._cells[299]
-    points = m._points
-    pts = cell._pointIds
-    print(points[pts])
-    print(cell)
+
+    cells = []
+    for i in range(10000):
+        try:
+            cells.append(m._cells[i])
+        except:
+            break
+
+    for cell in cells:
+        print(cell)
 
     endTime = time.time()
-
     print(f"Execution time: {endTime - startTime} seconds")

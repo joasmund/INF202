@@ -12,13 +12,29 @@ class Cell(ABC):
 
     def computeNeighbors(self, cells):
         """
-        This function computes cell neighbors for current instance
+        This function computes cell neighbors for current instance.
+        Optimized for performance by using point-to-cell mapping.
         """
+        # Create a mapping of points to the cells they belong to
+        point_to_cells = {}
         for cell in cells:
-            matches = set(self._pointIds) & set(cell._pointIds)
-            if len(matches) == 2:
-                self._neighbors.append(cell._idx)
-        pass
+            for point_id in cell._pointIds:
+                if point_id not in point_to_cells:
+                    point_to_cells[point_id] = []
+                point_to_cells[point_id].append(cell)
+
+        # Use the point-to-cells mapping to find neighbors efficiently
+        candidate_neighbors = set()
+        for point_id in self._pointIds:
+            if point_id in point_to_cells:
+                candidate_neighbors.update(point_to_cells[point_id])
+
+        # Filter candidate neighbors to include only valid neighbors
+        for cell in candidate_neighbors:
+            if cell._idx != self._idx:  # Exclude self
+                matches = set(self._pointIds) & set(cell._pointIds)
+                if len(matches) == 2:
+                    self._neighbors.append(cell._idx)
 
     @property
     def point_coords(self):
@@ -59,8 +75,8 @@ class Triangle(Cell):
         super().__init__(pts, idx, points)
 
     def area(self):
-
-        points_3x3 = np.vstack(self.point_coords)  # Stack the arrays vertically
+        # Stack the arrays vertically
+        points_3x3 = np.vstack(self.point_coords)
         # Turn the coordinates into a 2D array
         coords_2d = points_3x3[:, :2]
         # Extract the points
@@ -69,8 +85,7 @@ class Triangle(Cell):
         x3, y3 = coords_2d[2]
 
         # Compute the area using the determinant formula
-        area = 0.5 * abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2))
-        return area
+        return 0.5 * abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2))
 
     def midpoint(self):
         """
@@ -117,4 +132,4 @@ class Triangle(Cell):
             f"Normal {i + 1}: {normals[i]}" for i in range(len(normals))
         )
 
-        return f"Triangle with id {self._idx}: {self._neighbors} Midpoint of triangle is located at {self.midpoint()}. {normals_str} {self.area()}"
+        return f"Triangle with id {self._idx}: {self._neighbors} Midpoint of triangle is located at {self.midpoint()}. {normals_str}. Area of triangle is {self.area()}"
