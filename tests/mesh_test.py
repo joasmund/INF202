@@ -1,7 +1,7 @@
 import pytest
 import os
 
-file = "bay.msh" # må få lagt inn path til filene
+file = "bay.msh"
 
 
 
