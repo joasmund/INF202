@@ -12,15 +12,13 @@ class Mesh:
         computational mesh and stores points and cells
         :param mshName: name of the .msh file that needs to be stored
         """
-        msh = meshio.read(mshName)
+        self._msh = meshio.read(mshName)  # Store msh as an instance variable
 
-        cells = msh.cells
+        cells = self._msh.cells
 
         self._points = np.array(
-            np.vstack(msh.points)[:, :2], dtype=np.float64
+            np.vstack(self._msh.points)[:, :2]
         )  # List of all points
-
-        # self._points = np.vstack(msh.points)[:, :2]
 
         cf = CellFactory()
 

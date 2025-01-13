@@ -4,7 +4,12 @@ import numpy as np
 
 
 class Cell(ABC):
-    def __init__(self, pts, idx, points) -> None:
+    def __init__(
+        self,
+        pts,
+        idx,
+        points,
+    ) -> None:
         self._pointIds = pts  # Index (in the points list in the mesh) of points in cell
         self._idx = idx  # Cell id
         self._neighbors = []  # List of neighbors
@@ -56,8 +61,17 @@ class Cell(ABC):
 
 
 class Vertex(Cell):
-    def __init__(self, pts, idx, points) -> None:
-        super().__init__(pts, idx, points)
+    def __init__(
+        self,
+        pts,
+        idx,
+        points,
+    ) -> None:
+        super().__init__(
+            pts,
+            idx,
+            points,
+        )
 
     # def __str__(self) -> str:
     #     """
@@ -67,8 +81,17 @@ class Vertex(Cell):
 
 
 class Line(Cell):
-    def __init__(self, pts, idx, points) -> None:
-        super().__init__(pts, idx, points)
+    def __init__(
+        self,
+        pts,
+        idx,
+        points,
+    ) -> None:
+        super().__init__(
+            pts,
+            idx,
+            points,
+        )
 
     # def __str__(self) -> str:
     #     """
@@ -78,8 +101,17 @@ class Line(Cell):
 
 
 class Triangle(Cell):
-    def __init__(self, pts, idx, points) -> None:
-        super().__init__(pts, idx, points)
+    def __init__(
+        self,
+        pts,
+        idx,
+        points,
+    ) -> None:
+        super().__init__(
+            pts,
+            idx,
+            points,
+        )
 
     def area(self):
         # Stack the arrays vertically
@@ -104,46 +136,124 @@ class Triangle(Cell):
 
     def line_normals(self):
         """
-        Calculate the normal vector for each edge of the triangle.
-        :return: List of normal vectors for each edge of the triangle.
+        Calculate the normal vector for each edge of the triangle and append the
+        point of origin (midpoint of the edge) for each normal vector.
+        :return: List of tuples, each containing a normal vector and its origin point.
         """
-        normals = []
+        normals_with_origins = []
+        coords = self.point_coords  # Cache the point coordinates for efficiency
 
         for i in range(3):  # Loop over the edges of the triangle
-            p1 = self.point_coords[i]
-            p2 = self.point_coords[(i + 1) % 3]  # Next point, wrapping around
+            # Calculate the two points forming the edge
+            p1 = np.array(coords[i])
+            p2 = np.array(coords[(i + 1) % 3])
+
+            # Compute the midpoint (origin of the normal)
+            origin = (p1 + p2) / 2
+
+            # Calculate the edge vector
             edge_vector = p2 - p1
 
-            if len(edge_vector) == 2:  # 2D case
-                # Rotate by 90 degrees
-                normal = np.array([-edge_vector[1], edge_vector[0]])
-            elif len(edge_vector) == 3:  # 3D case
-                # Cross product with a vector normal to the triangle's plane
-                p3 = self.point_coords[(i + 2) % 3]
-                triangle_normal = np.cross(p2 - p1, p3 - p1)  # Plane normal
-                normal = np.cross(edge_vector, triangle_normal)
-            else:
-                raise ValueError("Unsupported dimensionality")
+            # Rotate the edge vector by 90 degrees to get the normal (in 2D)
+            normal = np.array([-edge_vector[1], edge_vector[0]])
 
             # Normalize the normal vector
-            normals.append(normal / np.linalg.norm(normal))
+            normal = normal / np.linalg.norm(normal)
 
-        return normals
+            # Append the normal and its origin point as a tuple
+            normals_with_origins.append((normal, origin))
 
+        return normals_with_origins
 
-#     def __str__(self) -> str:
-#         """
-#         Prints out "Triangle" and then all neighbors
-#         """
-#         normals = self.line_normals()
-#         normals_str = "\n                              ".join(
-#             f"Normal {i + 1}: {normals[i]}" for i in range(len(normals))
-#         )
-#
-#         return f"""
-# Triangle with id: {self._idx}
-# Has neihgbors: {self._neighbors}
-# Midpoint of triangle is located at {self.midpoint()}.
-# The triangles normal vectors: {normals_str}.
-# Area of triangle is {self.area()}
-# """
+    # def line_normals(self):
+    #     """
+    #     Calculate the normal vector for each edge of the triangle.
+    #     :return: List of normal vectors for each edge of the triangle.
+    #     """
+    #     return [
+    #         (np.array([-self.point_coords[i][1], self.point_coords[(i + 1) % 3][0]]))
+    #         / np.linalg.norm(
+    #             np.array([-self.point_coords[i][1], self.point_coords[(i + 1) % 3][0]])
+    #         )
+    #         for i in range(3)
+    #     ]
+
+    # def line_normals(self):
+    #     """
+    #     Calculate the normal vector for each edge of the triangle.
+    #     :return: List of normal vectors for each edge of the triangle.
+    #     """
+    #     normals = []
+    #
+    #     for i in range(3):  # Loop over the edges of the triangle
+    #         p1 = self.point_coords[i]
+    #         p2 = self.point_coords[(i + 1) % 3]  # Next point, wrapping around
+    #         edge_vector = p2 - p1
+    #
+    #         if len(edge_vector) == 2:  # 2D case
+    #             # Rotate by 90 degrees
+    #             normal = np.array([-edge_vector[1], edge_vector[0]])
+    #         # elif len(edge_vector) == 3:  # 3D case
+    #         #     # Cross product with a vector normal to the triangle's plane
+    #         #     p3 = self.point_coords[(i + 2) % 3]
+    #         #     triangle_normal = np.cross(p2 - p1, p3 - p1)  # Plane normal
+    #         #     normal = np.cross(edge_vector, triangle_normal)
+    #         # else:
+    #         #     raise ValueError("Unsupported dimensionality")
+    #
+    #         # Normalize the normal vector
+    #         normals.append(normal / np.linalg.norm(normal))
+    #
+    #     return normals
+
+    def initial_oil(self):
+        """
+        Extract triangular elements from the mesh
+        """
+        # Access the stored msh object
+        x_star = np.array([0.35, 0.45])
+
+        # Compute the Gaussian function for each point in the mesh
+        data = np.exp(-np.linalg.norm(self._points - x_star, axis=1) ** 2 / 0.01)
+
+        # Compute and return the average of the data at the triangle's vertices
+        return np.mean(data[self._pointIds])
+
+    def flux(self, ngh, nu, v):
+        if np.dot(v, nu):
+            return self._idx * np.dot(v, nu)
+        else:
+            return ngh * np.dot(v, nu)
+
+    def updated_oil(self):
+        delta_t = 1
+        up = 0
+        for i in self._idx:
+            up = up - (delta_t / self.area()) * self.flux(
+                self._neighbors[i],
+                self.line_normals()[i],
+                self._neighbors[i].line_normals()[i],
+            )
+
+        return
+
+    def __str__(self) -> str:
+        """
+        Prints out "Triangle" and then all neighbors
+        """
+
+        normals = self.line_normals()
+        ordinal_names = ["first", "second", "third"]
+        normals_str = "\n".join(
+            f"The triangles {ordinal_names[i]} normal vector: {[float(coord) for coord in normals[i][0]]} and the startpoint for this vector: {[float(coord) for coord in normals[i][1]]}"
+            for i in range(len(normals))
+        )
+
+        return f"""
+Triangle with id: {self._idx}
+Has neihgbors: {self._neighbors}
+Midpoint of triangle is located at {self.midpoint()}.
+The triangles normal vectors: {normals_str}.
+Area of triangle is {self.area()}
+Amount of oil in cell equates to {self.initial_oil()}
+"""
