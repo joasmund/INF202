@@ -112,6 +112,8 @@ class Triangle(Cell):
             idx,
             points,
         )
+        self._inital_oil = self.initial_oil()
+        self._current_oil = self.initial_oil
 
     def area(self):
         # Stack the arrays vertically
@@ -225,18 +227,6 @@ class Triangle(Cell):
         else:
             return ngh * np.dot(v, nu)
 
-    def updated_oil(self):
-        delta_t = 1
-        up = 0
-        for i in self._idx:
-            up = up - (delta_t / self.area()) * self.flux(
-                self._neighbors[i],
-                self.line_normals()[i],
-                self._neighbors[i].line_normals()[i],
-            )
-
-        return
-
     def __str__(self) -> str:
         """
         Prints out "Triangle" and then all neighbors
@@ -255,5 +245,5 @@ Has neihgbors: {self._neighbors}
 Midpoint of triangle is located at {self.midpoint()}.
 The triangles normal vectors: {normals_str}.
 Area of triangle is {self.area()}
-Amount of oil in cell equates to {self.initial_oil()}
+Amount of oil in cell equates to {self._current_oil}
 """
