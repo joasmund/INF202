@@ -128,7 +128,7 @@ class Triangle(Cell):
         # Compute the area using the determinant formula
         return 0.5 * abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2))
 
-    def midpoint(self):
+    def center(self):
         """
         Compute the geometric midpoint of the cell.
         :param points: List of all points in the mesh
@@ -136,36 +136,22 @@ class Triangle(Cell):
         """
         return np.mean(self.point_coords, axis=0)
 
+    def midpoints(self):
+
+        return
+
     def line_normals(self):
         """
-        Calculate the normal vector for each edge of the triangle and append the
-        point of origin (midpoint of the edge) for each normal vector.
-        :return: List of tuples, each containing a normal vector and its origin point.
+        Calculate the normal vector for each edge of the triangle.
+        :return: List of normal vectors for each edge of the triangle.
         """
-        normals_with_origins = []
-        coords = self.point_coords  # Cache the point coordinates for efficiency
-
-        for i in range(3):  # Loop over the edges of the triangle
-            # Calculate the two points forming the edge
-            p1 = np.array(coords[i])
-            p2 = np.array(coords[(i + 1) % 3])
-
-            # Compute the midpoint (origin of the normal)
-            origin = (p1 + p2) / 2
-
-            # Calculate the edge vector
-            edge_vector = p2 - p1
-
-            # Rotate the edge vector by 90 degrees to get the normal (in 2D)
-            normal = np.array([-edge_vector[1], edge_vector[0]])
-
-            # Normalize the normal vector
-            normal = normal / np.linalg.norm(normal)
-
-            # Append the normal and its origin point as a tuple
-            normals_with_origins.append((normal, origin))
-
-        return normals_with_origins
+        return [
+            (np.array([-self.point_coords[i][1], self.point_coords[(i + 1) % 3][0]]))
+            / np.linalg.norm(
+                np.array([-self.point_coords[i][1], self.point_coords[(i + 1) % 3][0]])
+            )
+            for i in range(3)
+        ]
 
     # def line_normals(self):
     #     """
@@ -233,17 +219,15 @@ class Triangle(Cell):
         """
 
         normals = self.line_normals()
-        ordinal_names = ["first", "second", "third"]
-        normals_str = "\n".join(
-            f"The triangles {ordinal_names[i]} normal vector: {[float(coord) for coord in normals[i][0]]} and the startpoint for this vector: {[float(coord) for coord in normals[i][1]]}"
-            for i in range(len(normals))
+        normals_str = "\n                              ".join(
+            f"Normal {i + 1}: {normals[i]}" for i in range(len(normals))
         )
 
         return f"""
 Triangle with id: {self._idx}
 Has neihgbors: {self._neighbors}
-Midpoint of triangle is located at {self.midpoint()}.
+Midpoint of triangle is located at {self.center()}.
 The triangles normal vectors: {normals_str}.
 Area of triangle is {self.area()}
-Amount of oil in cell equates to {self._current_oil}
+Amount of oil in cell equates to {self.initial_oil()}
 """
