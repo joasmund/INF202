@@ -112,14 +112,10 @@ class Triangle(Cell):
             idx,
             points,
         )
-        self._inital_oil = self.initial_oil()
-        self._current_oil = self.initial_oil
 
     def area(self):
-        # Stack the arrays vertically
-        points_3x3 = np.vstack(self.point_coords)
-        # Turn the coordinates into a 2D array
-        coords_2d = points_3x3[:, :2]
+        coords_2d = self.point_coords
+
         # Extract the points
         x1, y1 = coords_2d[0]
         x2, y2 = coords_2d[1]
@@ -137,8 +133,8 @@ class Triangle(Cell):
         return np.mean(self.point_coords, axis=0)
 
     def midpoints(self):
-
-        return
+        points = self.point_coords
+        return (points + np.roll(points, shift=-1, axis=0)) / 2
 
     def line_normals(self):
         """
@@ -152,47 +148,6 @@ class Triangle(Cell):
             )
             for i in range(3)
         ]
-
-    # def line_normals(self):
-    #     """
-    #     Calculate the normal vector for each edge of the triangle.
-    #     :return: List of normal vectors for each edge of the triangle.
-    #     """
-    #     return [
-    #         (np.array([-self.point_coords[i][1], self.point_coords[(i + 1) % 3][0]]))
-    #         / np.linalg.norm(
-    #             np.array([-self.point_coords[i][1], self.point_coords[(i + 1) % 3][0]])
-    #         )
-    #         for i in range(3)
-    #     ]
-
-    # def line_normals(self):
-    #     """
-    #     Calculate the normal vector for each edge of the triangle.
-    #     :return: List of normal vectors for each edge of the triangle.
-    #     """
-    #     normals = []
-    #
-    #     for i in range(3):  # Loop over the edges of the triangle
-    #         p1 = self.point_coords[i]
-    #         p2 = self.point_coords[(i + 1) % 3]  # Next point, wrapping around
-    #         edge_vector = p2 - p1
-    #
-    #         if len(edge_vector) == 2:  # 2D case
-    #             # Rotate by 90 degrees
-    #             normal = np.array([-edge_vector[1], edge_vector[0]])
-    #         # elif len(edge_vector) == 3:  # 3D case
-    #         #     # Cross product with a vector normal to the triangle's plane
-    #         #     p3 = self.point_coords[(i + 2) % 3]
-    #         #     triangle_normal = np.cross(p2 - p1, p3 - p1)  # Plane normal
-    #         #     normal = np.cross(edge_vector, triangle_normal)
-    #         # else:
-    #         #     raise ValueError("Unsupported dimensionality")
-    #
-    #         # Normalize the normal vector
-    #         normals.append(normal / np.linalg.norm(normal))
-    #
-    #     return normals
 
     def initial_oil(self):
         """
@@ -228,6 +183,7 @@ Triangle with id: {self._idx}
 Has neihgbors: {self._neighbors}
 Midpoint of triangle is located at {self.center()}.
 The triangles normal vectors: {normals_str}.
+The startpoint of each normal vector is located at {self.midpoints()}
 Area of triangle is {self.area()}
 Amount of oil in cell equates to {self.initial_oil()}
 """
