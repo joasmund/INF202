@@ -1,11 +1,9 @@
 import meshio
 import numpy as np
-import toml
 
 from .cells import Line, Triangle, Vertex
 from .solver import CellFactory
 
-x_star = config[]
 
 class Mesh:
     def __init__(self, mshName) -> None:
@@ -51,3 +49,7 @@ class Mesh:
         and remove the z-axis
         """
         return self._points
+
+    @property
+    def cells(self):
+        return self._cells

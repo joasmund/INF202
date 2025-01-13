@@ -10,21 +10,14 @@ if __name__ == "__main__":
     config = toml.load("config.toml")
 
     mshName = config["geometry"]["meshName"]
-    mshName2 = config["geometry"]["meshName2"]
+    # x_star = config["geometry"]["x_star"]
 
     startTime = time.time()
 
     m = Mesh(mshName)
-    # m.computeNeighbors()
+    m.computeNeighbors()
 
-    cells = []
-    for i in range(10000):
-        try:
-            cells.append(m._cells[i])
-        except:
-            break
-
-    for cell in cells:
+    for cell in m.cells:
         print(cell)
 
     endTime = time.time()

@@ -36,6 +36,13 @@ class Cell(ABC):
                 if len(matches) == 2:
                     self._neighbors.append(cell._idx)
 
+    # @computeNeighbors.setter
+    # def neighbors(self, neighboring_cells: list[int]) -> None:
+    #     """
+    #     Stores the neighbors found in find_neighbors() from the mesh class in this cell
+    #     """
+    #     self._neighbors = neighboring_cells
+
     @property
     def point_coords(self):
         """
@@ -43,31 +50,31 @@ class Cell(ABC):
         """
         return [self._points[point] for point in self._pointIds]
 
-    @abstractmethod
-    def __str__(self) -> str:
-        return ""
+    # @abstractmethod
+    # def __str__(self) -> str:
+    #     return ""
 
 
 class Vertex(Cell):
     def __init__(self, pts, idx, points) -> None:
         super().__init__(pts, idx, points)
 
-    def __str__(self) -> str:
-        """
-        Prints out "Vertex"
-        """
-        return f"Vertex with id {self._idx}"
+    # def __str__(self) -> str:
+    #     """
+    #     Prints out "Vertex"
+    #     """
+    #     return f"Vertex with id {self._idx}"
 
 
 class Line(Cell):
     def __init__(self, pts, idx, points) -> None:
         super().__init__(pts, idx, points)
 
-    def __str__(self) -> str:
-        """
-        Prints out "Line" and then all neighbors
-        """
-        return f"Line with id {self._idx}: {self._neighbors}"
+    # def __str__(self) -> str:
+    #     """
+    #     Prints out "Line" and then all neighbors
+    #     """
+    #     return f"Line with id {self._idx}: {self._neighbors}"
 
 
 class Triangle(Cell):
@@ -123,19 +130,20 @@ class Triangle(Cell):
 
         return normals
 
-    def __str__(self) -> str:
-        """
-        Prints out "Triangle" and then all neighbors
-        """
-        normals = self.line_normals()
-        normals_str = "\n                              ".join(
-            f"Normal {i + 1}: {normals[i]}" for i in range(len(normals))
-        )
 
-        return f"""
-Triangle with id: {self._idx}
-Has neihgbors: {self._neighbors}
-Midpoint of triangle is located at {self.midpoint()}.
-The triangles normal vectors: {normals_str}.
-Area of triangle is {self.area()}
-"""
+#     def __str__(self) -> str:
+#         """
+#         Prints out "Triangle" and then all neighbors
+#         """
+#         normals = self.line_normals()
+#         normals_str = "\n                              ".join(
+#             f"Normal {i + 1}: {normals[i]}" for i in range(len(normals))
+#         )
+#
+#         return f"""
+# Triangle with id: {self._idx}
+# Has neihgbors: {self._neighbors}
+# Midpoint of triangle is located at {self.midpoint()}.
+# The triangles normal vectors: {normals_str}.
+# Area of triangle is {self.area()}
+# """
