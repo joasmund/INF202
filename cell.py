@@ -32,7 +32,7 @@ class Cell:
         
         scaled_normal = normal * edge_length
         
-        # Dot-product for direction 
+        # Dot product for direction 
         dot_product = np.dot(vector, scaled_normal)
         if dot_product > 0:
             direction = m * dot_product, "Same as normal vector"
@@ -44,6 +44,7 @@ class Cell:
     
 # Using fixed coordinates try the function
 points = [(0, 0), (1, 0), (0, 1)]
+
 cell = Cell(points)
 
 
