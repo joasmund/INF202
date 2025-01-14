@@ -1,35 +1,22 @@
 import toml
 
 
-import meshio
-import numpy as np
-import math
-
-
-with open ("config.toml" , "r") as f:
+with open("config.toml", "r") as f:
     data = toml.load(f)
 
 print(data)
 
+from parser import readConfigFile, parseInput
 
+config = parseInput()
 
-up = 0
-u_i = 1              #Solution of triangle i at the time t(n) 
-u_ngh = 1             #Solution of neighbor triangle ngh at the time t(n)
+readConfigFile()
 
-# Check if the config file is a toml file
-def check_file_type(data):
-    if not f.endswith(".toml"):
-        raise ValueError("Config file must be a toml file")
+def check_file_type(readConfigFile):
+    if isinstance(readConfigFile, str) and readConfigFile.endswith(".toml"):
+        print("File type is TOML")
     else:
-        pass
-
-
-def check_toml(data):
-    if not "config" in data:
-        raise ValueError("Config file must be a toml file")
-    else:
-        pass
+        raise ValueError("Invalid file type")
 
 
 def check_starttime(data):
@@ -58,9 +45,10 @@ def check_steps(data):
     else:
         pass
 
+
 def check_for_video(data):
     if "writeFrequency" not in data["settings"]:
-        raise ValueError("writeFrequency not given, no video will be created")
+        print("writeFrequency not given, no video will be created")
     elif data["settings"]["writeFrequency"] <= 0:
         raise ValueError("writeFrequency must be positive")
     elif data["settings"]["writeFrequency"] % 1 != 0:
@@ -69,8 +57,36 @@ def check_for_video(data):
         pass
 
 
+def check_for_mesh(data):
+    if "meshName" not in data["geometry"]:
+        raise ValueError("Mesh name not given")
+    else:
+        pass
 
-#extract parameters from the config file
+
+def check_for_startposition(data):
+    if "xStar" not in data["geometry"]:
+        raise ValueError("Start position not given")
+    else:
+        pass
+
+
+def check_for_restart_file(data):
+    if "restartFile" not in data["settings"] and "tStart" in data["settings"]:
+        raise ValueError("Restart file not given. Restart file must be provided if start time is provided")
+    else:
+        pass
+
+
+# Denne er vel egentlig ikke nødvendig?
+def check_for_restart_params():
+    if "restartFile" in data["settings"] and "tStart" not in data["settings"]:
+        raise ValueError("Restart file given, but no start time. ")
+    else:
+        pass
+
+
+""" # Extract parameters from the config file
 starttime = data["settings"]["tStart"]
 if starttime < 0:
     raise ValueError("Start time must be positive")
@@ -84,6 +100,15 @@ print(steps)
 startposition = data["geometry"]["xStar"]
 print(startposition)
 meshName = data["geometry"]["meshName"]
-print(meshName)
+print(meshName) """
 
-
+if __name__ == "__main__":
+    check_file_type(data)
+    check_starttime(data)
+    check_endtime(data)
+    check_steps(data)
+    check_for_video(data)
+    check_for_mesh(data)
+    check_for_startposition(data)
+    check_for_restart_file(data)
+    print("All checks passed")
