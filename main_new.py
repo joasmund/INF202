@@ -85,7 +85,7 @@ def find_neighbors(mesh):
     return cell_neighbors
 
 
-# Load the mesh file
+# Load the mesh file bay.msh
 mesh = meshio.read("bay.msh")
 
 # Measure the time taken to find neighbors
