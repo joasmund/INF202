@@ -8,3 +8,7 @@ class Mesh:
 
         self._points = np.array(np.vstack(self._mesh.points[:, :2]))
         cells = self._mesh.cells
+
+        for cell in cells:
+            for points in cell
+
