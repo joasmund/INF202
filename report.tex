@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage{amsmath} % For avanserte matematiske funksjoner
+\usepackage{graphicx} % For bilder
+\usepackage{tocloft} % Forbedret innholdsfortegnelse
+
+\begin{document}
+
+% Title Page
+\begin{titlepage}
+\centering
+\vspace*{1cm} 
+{\Large \textbf{Simulation of an Oil Spill in Bay City} \par} 
+\vspace{1.5cm} 
+{\large
+\textit{Jørgen Asmundvaag \\ 
+Ivar Eftedal \\ 
+Sebastian Sverkmo} \par}
+\vspace{1.5cm} 
+{\large \textbf{January 2025} \par}
+\vspace*{\fill} 
+\end{titlepage}
+% End title Page
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Overall Problem}
+The goal is to develop a simulation to model the spread of an oil spill in Bay City, a fictional coastal town. This simulation will predict the oil's movement and its impact on nearby fishing grounds, helping the community mitigate ecological and economic risks.\\
+The simulation models the oil's evolution based on an initial distribution and a flow field representing ocean currents. The fishing grounds, located in $[0.0, 0.45] \times [0.0, 0.2]$, are the primary area of concern, with the aim of evaluating oil concentration over time.\\
+The initial oil distribution is:
+\begin{equation}
+u(t=0, \vec{x}) = \exp\left(-\frac{\|\vec{x} - \vec{x}_\star\|^2}{0.01}\right)
+\end{equation}
+Here, $u(t=0, \vec{x})$ represents the initial concentration of oil at point $\vec{x}$.
+
+The flow field guiding the oil's movement is:
+\begin{equation}
+v(\vec{x}) = 
+\begin{pmatrix}
+y - 0.2x \\
+-x
+\end{pmatrix}
+\end{equation}
+
+\section{Simulation}
+\subsection{Mathematical Model}
+Explain the equations...
+\subsection{Numerical Implementation}
+Explain the computational steps...
+
+\section{User Guide}
+\subsection{Installation}
+- Download the simulation files from the repository.
+- Install Python and required packages.
+\subsection{Running the Simulation}
+- Run `python simulate.py` to execute the simulation.
+- Follow on-screen prompts.
+
+\section{Structure}
+Describe the structure of the project files...
+
+\section{Development}
+Highlight key development steps...
+
+\section{Results}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{results_graph.png}
+\caption{Oil concentration over time in fishing grounds.}
+\label{fig:results}
+\end{figure}
+
+\end{document}
