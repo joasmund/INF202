@@ -1,3 +1,4 @@
+import time
 from collections import defaultdict
 
 import meshio
@@ -6,16 +7,16 @@ import numpy as np
 
 def find_neighbors(mesh):
     # Print cell types and their counts
-    print("\nCell types in mesh:")
-    for cell_type, cell_data in mesh.cells_dict.items():
-        print(f"{cell_type}: {len(cell_data)} elements")
-    print("\n")
+    # print("\nCell types in mesh:")
+    # for cell_type, cell_data in mesh.cells_dict.items():
+    #     print(f"{cell_type}: {len(cell_data)} elements")
+    # print("\n")
 
     face_to_cells = defaultdict(list)
     cell_faces = {}  # Dictionary to store faces for each cell
 
     # Create a global cell index mapping
-    global_index = 0
+    global_index = 1
     cell_type_mapping = {}  # Maps (cell_type, local_index) to global_index
 
     # First pass: create global indices
@@ -52,21 +53,21 @@ def find_neighbors(mesh):
             for face in faces:
                 face_to_cells[face].append(global_cell_index)
 
-    # Print faces for each cell
-    print("Faces for each cell:")
-    for cell_index in sorted(cell_faces.keys()):
-        cell_type, faces = cell_faces[cell_index]
-        print(f"Cell {cell_index} ({cell_type}) faces: {faces}")
-    print("\n")
+    # # Print faces for each cell
+    # print("Faces for each cell:")
+    # for cell_index in sorted(cell_faces.keys()):
+    #     cell_type, faces = cell_faces[cell_index]
+    #     print(f"Cell {cell_index} ({cell_type}) faces: {faces}")
+    # print("\n")
 
     # Check for non-manifold edges
-    non_manifold_edges = [
-        (face, cells) for face, cells in face_to_cells.items() if len(cells) > 2
-    ]
-    if non_manifold_edges:
-        print("Warning: Found non-manifold edges:")
-        for edge, cells in non_manifold_edges:
-            print(f"Edge {edge} is shared by cells: {cells}")
+    # non_manifold_edges = [
+    #     (face, cells) for face, cells in face_to_cells.items() if len(cells) > 2
+    # ]
+    # if non_manifold_edges:
+    #     print("Warning: Found non-manifold edges:")
+    #     for edge, cells in non_manifold_edges:
+    #         print(f"Edge {edge} is shared by cells: {cells}")
 
     cell_neighbors = defaultdict(set)
     for face, cells in face_to_cells.items():
@@ -74,17 +75,26 @@ def find_neighbors(mesh):
             cell_neighbors[cells[0]].add(cells[1])
             cell_neighbors[cells[1]].add(cells[0])
 
-    # Sort and print neighbors
-    print("\nNeighbors for each cell:")
-    for cell_index in sorted(cell_faces.keys()):
-        cell_type = cell_faces[cell_index][0]
-        neighbors_list = sorted(cell_neighbors[cell_index])
-        print(f"Cell {cell_index} ({cell_type}) has neighbors: {neighbors_list}")
+    # # Sort and print neighbors
+    # print("\nNeighbors for each cell:")
+    # for cell_index in sorted(cell_faces.keys()):
+    #     cell_type = cell_faces[cell_index][0]
+    #     neighbors_list = sorted(cell_neighbors[cell_index])
+    #     print(f"Cell {cell_index} ({cell_type}) has neighbors: {neighbors_list}")
 
     return cell_neighbors
 
 
 # Load the mesh file
 mesh = meshio.read("bay.msh")
+
+# Measure the time taken to find neighbors
+start_time = time.time()
+
 # Find neighbors
 neighbors = find_neighbors(mesh)
+
+end_time = time.time()
+
+# Print the time taken
+print(f"\nExecution Time: {end_time - start_time} seconds")
