@@ -1,16 +1,77 @@
 import toml
+import os
+import argparse
 
 
-with open("config.toml", "r") as f:
+def parseInput():
+    parser = argparse.ArgumentParser(description='Input config file folder with -f or --find_all')
+    parser.add_argument('-f', '--find_all', default='input.toml', help='Put in name of config file. ')
+    parser.add_argument('--find_all', default='src', help='Search for and run all config files in the main program folder with --find_all')
+    parser.add_argument('-f', '--folder', default='src', help='Put in name of the folder where the config files are located. ')
+    parser.add_argument('-c', '--config_file', default='input.toml', help='Put in name of the config file. ')
+    args = parser.parse_args()
+    return args.file
+
+
+def readConfigFile(name):
+    with open(name, 'r') as file:
+        conf = toml.load(file)
+    return conf.get('config')
+
+
+def folder_input():
+    folder = argparse.ArgumentParser(description='Input comfig file folder name with -f or --folder')
+    folder.add_argument('-f, --folder', default='src', help='Put in name of the folder where the config files are located. ')
+    args = folder.parse_args()
+    return args.folder
+
+
+def find_all():
+    all = argparse.ArgumentParser(description='Search for and run all config files in the main program folder with --find_all')
+    all.add_argument('--find_all', default='src', help='Search for and run all config files in the main program folder with --find_all')
+    args = all.parse_args()
+    return args.find_all
+
+
+""" if __name__ == '__main__':
+    name = parseInput()
+    config = readConfigFile(name)
+    print(config) """
+
+
+with open("input.toml", "r") as f:
     data = toml.load(f)
+
 
 print(data)
 
-from parser import readConfigFile, parseInput
 
-config = parseInput()
+#readConfigFile(name)
 
-readConfigFile()
+
+def is_valid_toml_file(file_path):
+    """
+    Check if a file has a .toml extension.
+
+    Args:
+        file_path (str): Path to the file.
+
+    Returns:
+        bool: True if the file has a .toml extension, False otherwise.
+    """
+    return os.path.isfile(file_path) and file_path.lower().endswith('.toml')
+
+
+file_path = "config.toml"
+
+if is_valid_toml_file(file_path):
+    print(f"{file_path} is a valid .toml file.")
+    # Proceed to read the file
+    with open(file_path, "r") as file:
+        content = file.read()
+        print(content)
+else:
+    print(f"{file_path} is not a valid .toml file.")
 
 def check_file_type(readConfigFile):
     if isinstance(readConfigFile, str) and readConfigFile.endswith(".toml"):
@@ -47,11 +108,11 @@ def check_steps(data):
 
 
 def check_for_video(data):
-    if "writeFrequency" not in data["settings"]:
+    if "writeFrequency" not in data["IO"]:
         print("writeFrequency not given, no video will be created")
-    elif data["settings"]["writeFrequency"] <= 0:
+    elif data["IO"]["writeFrequency"] <= 0:
         raise ValueError("writeFrequency must be positive")
-    elif data["settings"]["writeFrequency"] % 1 != 0:
+    elif data["IO"]["writeFrequency"] % 1 != 0:
         raise ValueError("writeFrequency must be an integer")
     else:
         pass
@@ -72,7 +133,7 @@ def check_for_startposition(data):
 
 
 def check_for_restart_file(data):
-    if "restartFile" not in data["settings"] and "tStart" in data["settings"]:
+    if "restartFile" not in data["IO"] and "tStart" in data["settings"]:
         raise ValueError("Restart file not given. Restart file must be provided if start time is provided")
     else:
         pass
@@ -103,7 +164,7 @@ meshName = data["geometry"]["meshName"]
 print(meshName) """
 
 if __name__ == "__main__":
-    check_file_type(data)
+    #check_file_type(name)
     check_starttime(data)
     check_endtime(data)
     check_steps(data)
