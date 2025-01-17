@@ -1,43 +1,14 @@
 import meshio
-
-from .cells import Line, Triangle, Vertex
-from .solver import CellFactory
+import numpy as np
 
 
 class Mesh:
-    def __init__(self, mshName) -> None:
-        """
-        Constructor of mesh class reads in and creates the
-        computational mesh and stores points and cells
-        :param mshName: name of the .msh file that needs to be stored
-        """
-        msh = meshio.read(mshName)
+    def __init__(self, meshName) -> None:
+        self._mesh = meshio.read(meshName)
 
-        cells = msh.cells
+        self._points = np.array(np.vstack(self._mesh.points[:, :2]))
+        cells = self._mesh.cells
 
-        self._points = msh.points  # List of all points
+        for cell in cells:
+            for points in cell
 
-        cf = CellFactory()
-
-        cf.register("vertex", Vertex)
-        cf.register("line", Line)
-        cf.register("triangle", Triangle)
-
-        self._cells = []  # List of all cells
-
-        for cellForType in cells:
-            cellType = cellForType.type  # Type of cell (Vertex, Line, Triangle)
-            for pts in cellForType.data:
-                idx = len(self._cells)
-                self._cells.append(cf(cellType, pts, idx, self.coordinates))
-
-    def computeNeighbors(self):
-        """
-        Calls computeNeighbors function for every cell
-        """
-        for cell in self._cells:
-            cell.computeNeighbors(self._cells)
-
-    @property
-    def coordinates(self):
-        return self._points
