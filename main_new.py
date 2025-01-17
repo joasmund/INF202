@@ -6,30 +6,31 @@ import numpy as np
 
 
 def find_neighbors(mesh):
-    # Print cell types and their counts
-    # print("\nCell types in mesh:")
-    # for cell_type, cell_data in mesh.cells_dict.items():
-    #     print(f"{cell_type}: {len(cell_data)} elements")
-    # print("\n")
-
-    face_to_cells = defaultdict(list)
-    cell_faces = {}  # Dictionary to store faces for each cell
 
     # Create a global cell index mapping
     global_index = 1
     cell_type_mapping = {}  # Maps (cell_type, local_index) to global_index
 
-    # First pass: create global indices
-    for cell_type, cell_data in mesh.cells_dict.items():
-        for local_index in range(len(cell_data)):
-            cell_type_mapping[(cell_type, local_index)] = global_index
-            global_index += 1
+    face_to_cells = defaultdict(list)
+    cell_faces = {}  # Dictionary to store faces for each cell
+    cell_points = defaultdict(list)  # Maps global cell index to its points (nodes)
+    point_coordinates = defaultdict(list)  # Maps point index to the coordinates of that point
 
-    # Process all cell types
+    # Store the point coordinates
+    for i, point in enumerate(mesh.points):
+        point_coordinates[i] = point[:2].tolist()  # Store coordinates of each point
+
     for cell_type, cell_data in mesh.cells_dict.items():
         for local_index, cell in enumerate(cell_data):
-            global_cell_index = cell_type_mapping[(cell_type, local_index)]
+            # Create global index mapping
+            cell_type_mapping[(cell_type, local_index)] = global_index
+            global_cell_index = global_index
+            global_index += 1
+
+            # Perform additional processing
             num_nodes = len(cell)
+
+            cell_points[global_cell_index] = cell  # Points are the nodes of the cell
 
             if num_nodes == 1:  # Vertex
                 faces = [tuple(sorted(cell))]
@@ -48,17 +49,10 @@ def find_neighbors(mesh):
                         faces.append(tuple(sorted([cell[i], cell[j]])))
 
             # Store faces for this cell
-            cell_faces[global_cell_index] = (cell_type, faces)
+            cell_faces[global_cell_index] = (faces)
 
             for face in faces:
                 face_to_cells[face].append(global_cell_index)
-
-    # # Print faces for each cell
-    # print("Faces for each cell:")
-    # for cell_index in sorted(cell_faces.keys()):
-    #     cell_type, faces = cell_faces[cell_index]
-    #     print(f"Cell {cell_index} ({cell_type}) faces: {faces}")
-    # print("\n")
 
     # Check for non-manifold edges
     # non_manifold_edges = [
@@ -75,12 +69,12 @@ def find_neighbors(mesh):
             cell_neighbors[cells[0]].add(cells[1])
             cell_neighbors[cells[1]].add(cells[0])
 
-    # # Sort and print neighbors
-    # print("\nNeighbors for each cell:")
-    # for cell_index in sorted(cell_faces.keys()):
-    #     cell_type = cell_faces[cell_index][0]
-    #     neighbors_list = sorted(cell_neighbors[cell_index])
-    #     print(f"Cell {cell_index} ({cell_type}) has neighbors: {neighbors_list}")
+    print(dict(sorted(cell_neighbors.items())))
+    # print(dict(sorted(cell_faces.items())))
+    # print(dict(sorted(face_to_cells.items())))
+    # print(dict(sorted(cell_points.items())))
+    # print(dict(sorted(point_coordinates.items())))
+    # print(dict((cell_type_mapping)))
 
     return cell_neighbors
 
