@@ -20,13 +20,25 @@ class Vertex(Cell):
     def __init__(self, id, oil_amount, area, normal_vectors_with_faces, faces, velocity_field, neighbors, delta_t) -> None:
         super().__init__(id, oil_amount, area, normal_vectors_with_faces, faces, velocity_field, neighbors, delta_t)
 
+    @property
+    def id(self):
+        return self._id
+
 class Line(Cell):
     def __init__(self, id, oil_amount, area, normal_vectors_with_faces, faces, velocity_field, neighbors, delta_t) -> None:
         super().__init__(id, oil_amount, area, normal_vectors_with_faces, faces, velocity_field, neighbors, delta_t)
 
+    @property
+    def id(self):
+        return self._id
+
 class Triangle(Cell):
     def __init__(self, id, oil_amount, area, normal_vectors_with_faces, faces, velocity_field, neighbors, delta_t) -> None:
         super().__init__(id, oil_amount, area, normal_vectors_with_faces, faces, velocity_field, neighbors, delta_t)
+
+    @property
+    def id(self):
+        return self._id
 
     @property
     def oil_amount(self):
@@ -41,33 +53,49 @@ class Triangle(Cell):
         return self._velocity_field
 
     @oil_amount.setter
-    def oil_amount(self):
-        self.update_oil_amount()
+    def oil_amount(self, value):
+        self._oil_amount = value
 
+    
     def update_oil_amount(self):
-        up = 0
-        for i, ngh in enumerate(self._neighbors):
-            for neighbor_face in ngh.faces:
-                if self._normal_vectors_with_faces[1][i] == neighbor_face:
+        up = 0  # Accumulate oil change from neighbors
+        for ngh in self._neighbors:
+            # Find the matching face and normal vector for the neighbor
+            for i, (face, normal) in enumerate(self._normal_vectors_with_faces):
+                if face in ngh['neighbor_faces']:
+                    # Calculate the scaled normal (νk)
+                    # nu = normal * np.linalg.norm(face)
+                    nu = normal
+
+                    # Average velocity across the interface
+                    v_avg = 0.5 * (self._velocity_field + ngh['neighbor_velocity_field'])
+
+                    # Flux calculation
                     up -= (self._delta_t / self._area) * self.flux(
-                        ngh.oil_amount, 
-                        self._normal_vectors_with_faces[0][i], 
-                        ngh.velocity_field
+                        self._oil_amount,
+                        ngh['neighbor_oil_amount'],
+                        nu,
+                        v_avg,
                     )
+        # Update oil amount for this cell
         self._oil_amount += up
 
-    def flux(self, ngh, nu, v):
+
+    def flux(self, u_i, u_ngh, nu, v):
+        """
+        Compute flux across the interface.
+        u_i: Oil amount in the current cell.
+        u_ngh: Oil amount in the neighbor cell.
+        nu: Scaled normal vector.
+        v: Average velocity vector.
+        """
         if np.dot(v, nu) > 0:
-            return self._oil_amount * np.dot(v, nu)
+            return u_i * np.dot(v, nu)
         else:
-            return ngh.current_oil_amount * np.dot(v, nu)
+            return u_ngh * np.dot(v, nu)
 
     def __str__(self) -> str:
-        return f"""
-        Triangle with cell id: {self._id}
-        The oil amount in the cell is equal to {self._oil_amount}
-        Has area: {self._area}
-        It has the normal vectors and faces: {self._normal_vectors_with_faces}
-        The velocity field at the midpoint of the triangle = {self._velocity_field}
-        The triangle is neighbor with the following cells {self._neighbors}
-        """
+        return (
+            f"ID: {self._id}, Oil: {self._oil_amount}, Area: {self._area}, "
+            f"Faces: {self._faces}, Velocity: {self._velocity_field}, Neighbors: {self._neighbors}"
+        )
