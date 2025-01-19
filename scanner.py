@@ -12,9 +12,6 @@ def parseInput():
     return args
 
 
-parseInput()
-
-
 files = []
 directories = []
 
@@ -37,7 +34,6 @@ def file_search(directory):
 
 directory_search("./")
 file_search("./")
-
 
 toml_files = [file for file in files if file.endswith(".toml")]
 print(toml_files)
@@ -77,3 +73,55 @@ search_dir = get_search_directory()
 files = []
 directory_search(search_dir)
 file_search(search_dir)
+
+for file in toml_files:
+    file_name = os.path.splitext(os.path.basename(file))
+    folder_name = os.path.join("results", file_name)
+    os.makedirs(file_name, exist_ok=True)
+    print(f"Created folder: {file_name}")
+
+
+
+def main():
+    args = parseInput()
+    if args.find_all:   
+        search_dir = get_search_directory()
+        files = []
+        directory_search(search_dir)
+        file_search(search_dir)
+        toml_files = [file for file in files if file.endswith(".toml")]
+        print(toml_files)
+        for file in toml_files:
+            data = toml.load(file)
+            print(data)
+    else:
+        readConfigFile()
+
+
+
+def create_subfolder_from_file(file_path):
+
+    file_name = os.path.splitext(os.path.basename(file_path))[0]
+    
+
+    subfolder_path = os.path.join(os.getcwd(), file_name)
+    
+    try:
+
+        if not os.path.exists(subfolder_path):
+            os.mkdir(subfolder_path)
+            print(f"Subfolder '{file_name}' created at: {subfolder_path}")
+        else:
+            print(f"Subfolder '{file_name}' already exists.")
+    except Exception as e:
+        print(f"Error creating subfolder: {e}")
+
+
+file_path = "results/example_file.txt" 
+create_subfolder_from_file(file_path)
+
+
+for file in file_list:
+
+    create_subfolder_from_file(file)
+    print(file)
