@@ -5,3 +5,5 @@ matplotlib.pyplot
 abc
 meshio
 cv2
+pytest
+os
