@@ -4,6 +4,8 @@ from collections import defaultdict
 import meshio
 import numpy as np
 
+from src.Simulation.factory import CellFactory
+
 
 class Mesh:
     def __init__(self, mesh) -> None:
@@ -38,6 +40,10 @@ class Mesh:
                 self.find_faces(num_nodes, cell, global_cell_index, cell_faces, face_to_cells)
 
         cell_neighbors = self.find_neighbors(face_to_cells)
+
+        # cf = CellFactory()
+        #
+        # cf.register
 
 
         # Check for non-manifold edges
@@ -92,6 +98,20 @@ class Mesh:
                 cell_neighbors[cells[1]].add(cells[0])
 
         return cell_neighbors
+
+    def register_cells(self):
+        cf = CellFactory()
+        cf.register("vertex", Vertex)
+        cf.register("line", Line)
+        cf.register("triangle", Triangle)
+
+
+        self._cells = []  # List of all cells
+        for cellForType in cells:
+            cellType = cellForType.type  # Type of cell (Vertex, Line, Triangle)
+            for pts in cellForType.data:
+                idx = len(self._cells)
+                self._cells.append(cf(cellType, pts, idx, self.coordinates))
 
 # Load the mesh file bay.msh
 mesh = meshio.read("bay.msh")

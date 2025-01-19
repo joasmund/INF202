@@ -21,13 +21,11 @@ class Mesh:
         )  # List of all points
 
         cf = CellFactory()
-
         cf.register("vertex", Vertex)
         cf.register("line", Line)
         cf.register("triangle", Triangle)
 
         self._cells = []  # List of all cells
-
         for cellForType in cells:
             cellType = cellForType.type  # Type of cell (Vertex, Line, Triangle)
             for pts in cellForType.data:
