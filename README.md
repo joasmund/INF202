@@ -1,8 +1,8 @@
 # INF202 - Simulating an Oil Spill
 
 ### Authors
-Ivar Ødegårdstuen Eftedal
-Sebastian Sverkmo
+Ivar Ødegårdstuen Eftedal  
+Sebastian Sverkmo  
 Jørgen Asmundvaag
 
 This repository contains the code and resources for the INF202 project of 2025, which focuses on simulating the flow of oil spills using Python. The project includes various scripts for configuration parsing, simulation, and visualization.
