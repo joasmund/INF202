@@ -11,7 +11,7 @@ from src2.Simulation.mesh2 import Mesh
 if __name__ == "__main__":
 
     # Load configuration from toml file
-    config = toml.load("config.toml")
+    config = toml.load("input.toml")
     mshName = config["geometry"]["meshName"]
 
     startTime = time.time()
