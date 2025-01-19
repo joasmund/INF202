@@ -2,4 +2,7 @@
 .venv
 __pycache__
 .pytest_cache
+video.mp4
+video.avi
+
 
