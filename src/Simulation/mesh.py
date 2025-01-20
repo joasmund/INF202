@@ -149,30 +149,35 @@ class Mesh:
     def normal_vectors_with_faces(self, face, point_coordinates, triangle_midpoint):
         if len(face) != 2:
             return None
- 
+        
         # Get points on the face
         point1 = np.array(point_coordinates[face[0]])
         point2 = np.array(point_coordinates[face[1]])
- 
+
         # Calculate the direction vector
         direction = point2 - point1
- 
+        
         # Compute the normal vector
         normal = np.array([-direction[1], direction[0]])
-        normal = normal / np.linalg.norm(normal)  # Normalize the normal vector
- 
+        # normal = normal / np.linalg.norm(normal)  # Normalize the normal vector
+        # 
+        # # Calculate the length of the edge
+        edge_length = np.linalg.norm(direction)
+        # 
+        # # Scale the normal vector by the edge length
+        normal *= edge_length
+        
         # Calculate the midpoint of the face
-        unit_normal = normal / np.linalg.norm(normal)
         face_midpoint = (point1 + point2) / 2
-        mid_edge = face_midpoint - triangle_midpoint
-        scaled_normal = unit_normal * np.linalg.norm(direction)
- 
+        
+        # Vector from triangle's midpoint to face midpoint
+        vector_to_face_midpoint = face_midpoint - triangle_midpoint
+        
         # Check if the normal points outward
-        if np.dot(scaled_normal, face_midpoint) < 0:
-            normal = -scaled_normal  # Flip the normal if it's pointing inward
- 
-        return scaled_normal
-
+        if np.dot(normal, vector_to_face_midpoint) < 0:
+            normal = -normal  # Flip the normal if it's pointing inward
+        
+        return normal
 
     def find_faces(self, num_nodes, cell, global_cell_index, cell_faces, face_to_cells):
         if num_nodes == 1:
