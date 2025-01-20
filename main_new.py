@@ -1,4 +1,3 @@
-
 import time
 import meshio
 import toml
@@ -35,10 +34,11 @@ for cell_type, cell_data in mesh._mesh.cells_dict.items():
             triangles.append(cell)  # Store triangle vertex indices
             in_oil_amount.append(final_cell_data[cell_type_mapping[(cell_type, local_index)]]['oil_amount'])
 
-# Update oil amounts
-for cell in mesh._cells:
-    if isinstance(cell, Triangle):
-        cell.update_oil_amount()
+# Perform 10 computations of updating oil amounts
+for _ in range(10):  # Loop for 10 updates
+    for cell in mesh._cells:
+        if isinstance(cell, Triangle):
+            cell.update_oil_amount()
 
 # Store final oil amounts
 final_oil_amount = []
@@ -68,13 +68,14 @@ plt.ylabel("Y")
 plt.subplot(1, 2, 2)
 plt.tripcolor(triangulation, facecolors=final_oil_amount, cmap="viridis", shading="flat")
 plt.colorbar(label="Final Amount of Oil")
-plt.title("Final Oil Distribution")
+plt.title("Final Oil Distribution After 10 Updates")
 plt.xlabel("X")
 plt.ylabel("Y")
+
+end_time = time.time()
+print(f"Execution time: {end_time - start_time} seconds")
 
 # Display plots
 plt.tight_layout()
 plt.show()
 
-end_time = time.time()
-print(f"Execution time: {end_time - start_time} seconds")

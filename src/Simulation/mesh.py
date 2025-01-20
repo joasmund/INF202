@@ -1,4 +1,3 @@
-
 from collections import defaultdict
 import numpy as np
 from numpy.linalg import norm
@@ -6,8 +5,6 @@ from numpy.linalg import norm
 from src.Simulation.cells import Line, Triangle, Vertex
 from src.Simulation.factory import CellFactory
 
-# from .cells import Line, Triangle, Vertex
-# from .factory import CellFactory
 
 class Mesh:
     def __init__(self, mesh) -> None:
@@ -106,7 +103,6 @@ class Mesh:
             final_cell_data[global_cell_index] = cell_data
 
         # Print or return the final cell data
-        # print("Final cell data:", final_cell_data[3720])
         self.register_cell(self._cells, final_cell_data, cell_type_mapping)
 
         return final_cell_data, cell_type_mapping
@@ -150,8 +146,6 @@ class Mesh:
             area = 0.5 * abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2))
             areas[global_cell_index] = area
 
-
-
     def normal_vectors_with_faces(self, face, point_coordinates, triangle_midpoint):
         if len(face) != 2:
             return None
@@ -159,13 +153,13 @@ class Mesh:
         # Get points on the face
         point1 = np.array(point_coordinates[face[0]])
         point2 = np.array(point_coordinates[face[1]])
-        
+
         # Calculate the direction vector
         direction = point2 - point1
         
         # Compute the normal vector
         normal = np.array([-direction[1], direction[0]])
-        normal = normal / np.linalg.norm(normal)  # Normalize the normal vector
+        # normal = normal / np.linalg.norm(normal)  # Normalize the normal vector
         
         # Calculate the midpoint of the face
         face_midpoint = (point1 + point2) / 2
