@@ -15,7 +15,7 @@ mshName = config["geometry"]["meshName"]
 
 nSteps = 500  # Number of steps
 tStart = 0.0  # Start time
-tEnd = 0.5    # End time
+tEnd = 1.0    # End time
 
 if __name__ == "__main__":
     start_time = time.time()
@@ -29,6 +29,9 @@ if __name__ == "__main__":
     triangles = []
     in_oil_amount = []
     points = mesh._mesh.points  # Get the points from the mesh
+
+    # for cell in mesh._cells:
+    #     print(cell)
 
     # Store triangle cell data and initial oil amounts in a single pass
     for cell_type, cell_data in mesh._mesh.cells_dict.items():
@@ -47,11 +50,25 @@ if __name__ == "__main__":
 
     # Perform computations over nSteps (update oil amounts directly)
     for step in range(nSteps):
+        # print(step)
         current_time = tStart + step * delta_t
-        # Update oil amounts in all triangular cells in one loop
-        for cell in mesh._cells:
+        
+        # Create a temporary array to store updated oil amounts
+        updated_oil_amounts = np.zeros(len(mesh._cells))
+        
+        # updated_oil_amounts = []
+
+        # Update oil amounts for each triangular cell
+        for i, cell in enumerate(mesh._cells):
             if isinstance(cell, Triangle):
-                cell.update_oil_amount()
+                cell.oil_amount = cell.update_oil_amount()
+                updated_oil_amounts[i] = cell.oil_amount  # Store the updated oil amount
+                # updated_oil_amounts.append(cell.oil_amount)
+
+        # Optionally: Log or visualize the oil distribution at specific steps
+        if step % 50 == 0:  # Example: Log every 50 steps
+            print(f"Step {step}, Time: {current_time}")
+            print("Oil distribution:", updated_oil_amounts)
 
     # Collect the final oil amounts directly (single pass)
     final_oil_amount = np.array([cell.oil_amount for cell in mesh._cells if isinstance(cell, Triangle)])

@@ -145,43 +145,45 @@ class Mesh:
             area = 0.5 * abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2))
             areas[global_cell_index] = area
 
-        
+    
     def normal_vectors_with_faces(self, face, point_coordinates, triangle_midpoint):
         if len(face) != 2:
             return None
-
+ 
         # Get points on the face
         point1 = np.array(point_coordinates[face[0]])
         point2 = np.array(point_coordinates[face[1]])
-
+ 
         # Calculate the direction vector
         direction = point2 - point1
-        
+ 
         # Compute the normal vector
         normal = np.array([-direction[1], direction[0]])
-
+        normal = normal / np.linalg.norm(normal)  # Normalize the normal vector
+ 
         # Calculate the midpoint of the face
+        unit_normal = normal / np.linalg.norm(normal)
         face_midpoint = (point1 + point2) / 2
-        
-        # Vector from triangle's midpoint to face midpoint
-        vector_to_face_midpoint = face_midpoint - triangle_midpoint
-        
+        mid_edge = face_midpoint - triangle_midpoint
+        scaled_normal = unit_normal * np.linalg.norm(direction)
+ 
         # Check if the normal points outward
-        if np.dot(normal, vector_to_face_midpoint) < 0:
-            normal = -normal  # Flip the normal if it's pointing inward
-        
-        return normal
+        if np.dot(scaled_normal, face_midpoint) < 0:
+            normal = -scaled_normal  # Flip the normal if it's pointing inward
+ 
+        return scaled_normal
+
 
     def find_faces(self, num_nodes, cell, global_cell_index, cell_faces, face_to_cells):
         if num_nodes == 1:
-            faces = [tuple((cell))]
+            faces = [tuple(sorted(cell))]
         elif num_nodes == 2:
-            faces = [tuple((cell))]
+            faces = [tuple(sorted(cell))]
         elif num_nodes == 3:
             faces = [
-                tuple(([cell[0], cell[1]])),
-                tuple(([cell[1], cell[2]])),
-                tuple(([cell[0], cell[2]])),
+                tuple(sorted([cell[0], cell[1]])),
+                tuple(sorted([cell[1], cell[2]])),
+                tuple(sorted([cell[0], cell[2]])),
             ]
         else:
             faces = []
@@ -193,7 +195,6 @@ class Mesh:
         for face in faces:
             face_to_cells[face].append(global_cell_index)
 
-    
     def find_neighbors(self, face_to_cells):
         cell_neighbors = defaultdict(set)
         for face, cells in face_to_cells.items():
