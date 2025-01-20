@@ -1,7 +1,7 @@
 numpy
 toml
-matplotlib.pyplot
+matplotlib
 meshio
-opencv
+opencv-python
 pytest
 python >= 3.12
