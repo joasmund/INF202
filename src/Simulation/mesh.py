@@ -31,7 +31,6 @@ class Mesh:
         # To store the resulting dictionary with all the required information
         final_cell_data = {}
 
-        
         for cell_type, cell_data in self._mesh.cells_dict.items():
             for local_index, cell in enumerate(cell_data):
                 # Create global index mapping
@@ -202,9 +201,6 @@ class Mesh:
                 cell_neighbors[cells[1]].add(cells[0])
         return cell_neighbors
 
-    
-
-
     def register_cell(self, cells, final_cell_data, cell_type_mapping):
         cf = CellFactory()
         cf.register("vertex", Vertex)
@@ -212,7 +208,7 @@ class Mesh:
         cf.register("triangle", Triangle)
 
         for cell_type, cell_data in self._mesh.cells_dict.items():
-            for local_index, cell in enumerate(cell_data):
+            for local_index, _ in enumerate(cell_data):
                 global_cell_index = cell_type_mapping[(cell_type, local_index)]
                 cell_info = final_cell_data[global_cell_index]
                 

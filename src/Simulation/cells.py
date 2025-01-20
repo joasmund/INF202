@@ -16,6 +16,7 @@ class Cell(ABC):
         self._velocity_field = velocity_field
         self._delta_t = delta_t
 
+
 class Vertex(Cell):
     def __init__(self, id, oil_amount, area, normal_vectors_with_faces, faces, velocity_field, neighbors, delta_t) -> None:
         super().__init__(id, oil_amount, area, normal_vectors_with_faces, faces, velocity_field, neighbors, delta_t)
@@ -24,6 +25,7 @@ class Vertex(Cell):
     def id(self):
         return self._id
 
+
 class Line(Cell):
     def __init__(self, id, oil_amount, area, normal_vectors_with_faces, faces, velocity_field, neighbors, delta_t) -> None:
         super().__init__(id, oil_amount, area, normal_vectors_with_faces, faces, velocity_field, neighbors, delta_t)
@@ -31,6 +33,7 @@ class Line(Cell):
     @property
     def id(self):
         return self._id
+
 
 class Triangle(Cell):
     def __init__(self, id, oil_amount, area, normal_vectors_with_faces, faces, velocity_field, neighbors, delta_t) -> None:
@@ -55,13 +58,12 @@ class Triangle(Cell):
     @oil_amount.setter
     def oil_amount(self, value):
         self._oil_amount = value
-
     
     def update_oil_amount(self):
         up = 0  # Accumulate oil change from neighbors
         for ngh in self._neighbors:
             # Find the matching face and normal vector for the neighbor
-            for i, (face, normal) in enumerate(self._normal_vectors_with_faces):
+            for _, (face, normal) in enumerate(self._normal_vectors_with_faces):
                 if face in ngh['neighbor_faces']:
                     # Calculate the scaled normal (νk)
                     # nu = normal * np.linalg.norm(face)
@@ -79,7 +81,6 @@ class Triangle(Cell):
                     )
         # Update oil amount for this cell
         self._oil_amount += up
-
 
     def flux(self, u_i, u_ngh, nu, v):
         """
