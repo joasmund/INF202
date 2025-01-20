@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from src.Simulation.cells import Vertex, Line, Triangle  
+from src2.Simulation.cells2 import Vertex, Line, Triangle  
 
 @pytest.fixture
 def sample_points():
