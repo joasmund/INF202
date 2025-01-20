@@ -42,7 +42,7 @@ def find_all():
 with open("input.toml", "r") as f:
     data = toml.load(f)
 
-
+tStart = 0
 print(data)
 
 
@@ -81,9 +81,12 @@ def check_file_type(readConfigFile):
 
 
 def check_starttime(data):
-    if data["settings"]["tStart"] < 0:
+    if "tStart" not in data["settings"]:
+        tStart = 0
+        return tStart
+    elif data["settings"]["tStart"] < 0:
         raise ValueError("Start time must be positive")
-    else:
+    else:       
         pass
 
 
