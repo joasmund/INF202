@@ -1,9 +1,7 @@
 numpy
 toml
-argparse
 matplotlib.pyplot
-abc
 meshio
-cv2
+opencv
 pytest
-os
+python >= 3.12

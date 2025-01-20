@@ -37,11 +37,19 @@ if __name__ == "__main__":
                 in_oil_amount.append(final_cell_data[cell_type_mapping[(cell_type, local_index)]]['oil_amount'])
 
     # Perform 10 computations of updating oil amounts
-    for _ in range(10):  # Loop for 10 updates
+    for _ in range(11):  # Loop for 10 updates
         for cell in mesh._cells:
             if isinstance(cell, Triangle):
                 cell.update_oil_amount()
-
+                if cell.id == 309:
+                    print(cell.oil_amount, "yoyo")
+        for cell in mesh._cells:
+            if isinstance(cell, Triangle):
+                cell.oil_amount += cell.oil_change
+                cell.oil_change = 0
+                if cell.id == 309:
+                    print(cell.oil_amount, "heisann")
+    
     # Store final oil amounts
     final_oil_amount = []
     for cell in mesh._cells:

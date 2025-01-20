@@ -15,6 +15,7 @@ class Cell(ABC):
         self._neighbors = neighbors
         self._velocity_field = velocity_field
         self._delta_t = delta_t
+        self._oil_change = 0
 
 
 class Vertex(Cell):
@@ -58,29 +59,42 @@ class Triangle(Cell):
     @oil_amount.setter
     def oil_amount(self, value):
         self._oil_amount = value
+
+    @property
+    def oil_change(self):
+        return self._oil_change
+
+    @oil_change.setter
+    def oil_change(self, value):
+        self._oil_change = value
+    
     
     def update_oil_amount(self):
         up = 0  # Accumulate oil change from neighbors
         for ngh in self._neighbors:
             # Find the matching face and normal vector for the neighbor
             for _, (face, normal) in enumerate(self._normal_vectors_with_faces):
-                if face in ngh['neighbor_faces']:
+                print (ngh['neighbor_faces'][0][0])
+                print(face[0])
+                if face[0] == ngh['neighbor_faces'][0][0] and face[1] == ngh['neighbor_faces'][0][1]:
                     # Calculate the scaled normal (νk)
                     # nu = normal * np.linalg.norm(face)
-                    nu = normal
-
+                    nu = normal * np.linalg.norm(face)
+                    print(nu, 'nu')
                     # Average velocity across the interface
                     v_avg = 0.5 * (self._velocity_field + ngh['neighbor_velocity_field'])
 
                     # Flux calculation
-                    up -= (self._delta_t / self._area) * self.flux(
+                    up = up -(self._delta_t / self._area) * self.flux(
                         self._oil_amount,
                         ngh['neighbor_oil_amount'],
                         nu,
                         v_avg,
                     )
+                    print(up, 'up')
+                    print(ngh['neighbor_oil_amount'], 'neighbor_oil_amount')
         # Update oil amount for this cell
-        self._oil_amount += up
+        self.oil_change += up
 
     def flux(self, u_i, u_ngh, nu, v):
         """
