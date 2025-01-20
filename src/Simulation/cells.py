@@ -1,6 +1,4 @@
 from abc import ABC
-from collections import defaultdict
-
 import numpy as np
 
 
@@ -59,28 +57,27 @@ class Triangle(Cell):
     def oil_amount(self, value):
         self._oil_amount = value
     
+    
     def update_oil_amount(self):
-        up = 0  # Accumulate oil change from neighbors
+        up = 0
         for ngh in self._neighbors:
             # Find the matching face and normal vector for the neighbor
             for _, (face, normal) in enumerate(self._normal_vectors_with_faces):
                 if face in ngh['neighbor_faces']:
-                    # Calculate the scaled normal (νk)
-                    # nu = normal * np.linalg.norm(face)
                     nu = normal
 
                     # Average velocity across the interface
                     v_avg = 0.5 * (self._velocity_field + ngh['neighbor_velocity_field'])
 
                     # Flux calculation
-                    up -= (self._delta_t / self._area) * self.flux(
+                    up = (self._delta_t / self._area) * self.flux(
                         self._oil_amount,
                         ngh['neighbor_oil_amount'],
                         nu,
                         v_avg,
                     )
         # Update oil amount for this cell
-        self._oil_amount += up
+        self._oil_amount -= up
 
     def flux(self, u_i, u_ngh, nu, v):
         """

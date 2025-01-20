@@ -145,10 +145,11 @@ class Mesh:
             area = 0.5 * abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2))
             areas[global_cell_index] = area
 
+        
     def normal_vectors_with_faces(self, face, point_coordinates, triangle_midpoint):
         if len(face) != 2:
             return None
-        
+
         # Get points on the face
         point1 = np.array(point_coordinates[face[0]])
         point2 = np.array(point_coordinates[face[1]])
@@ -158,8 +159,7 @@ class Mesh:
         
         # Compute the normal vector
         normal = np.array([-direction[1], direction[0]])
-        # normal = normal / np.linalg.norm(normal)  # Normalize the normal vector
-        
+
         # Calculate the midpoint of the face
         face_midpoint = (point1 + point2) / 2
         
@@ -174,25 +174,26 @@ class Mesh:
 
     def find_faces(self, num_nodes, cell, global_cell_index, cell_faces, face_to_cells):
         if num_nodes == 1:
-            faces = [tuple(sorted(cell))]
+            faces = [tuple((cell))]
         elif num_nodes == 2:
-            faces = [tuple(sorted(cell))]
+            faces = [tuple((cell))]
         elif num_nodes == 3:
             faces = [
-                tuple(sorted([cell[0], cell[1]])),
-                tuple(sorted([cell[1], cell[2]])),
-                tuple(sorted([cell[0], cell[2]])),
+                tuple(([cell[0], cell[1]])),
+                tuple(([cell[1], cell[2]])),
+                tuple(([cell[0], cell[2]])),
             ]
         else:
             faces = []
             for i in range(num_nodes):
                 for j in range(i + 1, num_nodes):
-                    faces.append(tuple(sorted([cell[i], cell[j]])))
+                    faces.append(tuple(([cell[i], cell[j]])))
 
         cell_faces[global_cell_index] = faces
         for face in faces:
             face_to_cells[face].append(global_cell_index)
 
+    
     def find_neighbors(self, face_to_cells):
         cell_neighbors = defaultdict(set)
         for face, cells in face_to_cells.items():
