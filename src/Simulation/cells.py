@@ -1,6 +1,4 @@
 from abc import ABC
-from collections import defaultdict
-
 import numpy as np
 
 
@@ -60,27 +58,40 @@ class Triangle(Cell):
         self._oil_amount = value
     
     def update_oil_amount(self):
-        up = 0  # Accumulate oil change from neighbors
-        for ngh in self._neighbors:
-            # Find the matching face and normal vector for the neighbor
-            for _, (face, normal) in enumerate(self._normal_vectors_with_faces):
-                if face in ngh['neighbor_faces']:
-                    # Calculate the scaled normal (νk)
-                    # nu = normal * np.linalg.norm(face)
-                    nu = normal
+        total_flux = 0  # Initialize the total flux for the current cell
 
+        for face, normal in self._normal_vectors_with_faces:
+            for ngh in self._neighbors:
+            # Find the matching face and normal vector for the neighbor
+                # Normalize and sort both face representations
+                face_normalized = sorted(map(int, face))  # Convert face to sorted list of integers
+
+                # print(self._id, face, normal)
+                # Flatten ngh['neighbor_faces'] if it contains tuples
+                neighbor_face_flattened = [int(vertex) for pair in ngh['neighbor_faces'] for vertex in pair]
+                neighbor_face_normalized = sorted(neighbor_face_flattened)  # Normalize neighbor faces
+                
+                if face_normalized == neighbor_face_normalized:  # Match the shared face
                     # Average velocity across the interface
                     v_avg = 0.5 * (self._velocity_field + ngh['neighbor_velocity_field'])
 
-                    # Flux calculation
-                    up -= (self._delta_t / self._area) * self.flux(
-                        self._oil_amount,
-                        ngh['neighbor_oil_amount'],
-                        nu,
-                        v_avg,
+                    # print(f"{self._id}, Ui face: {face_normalized}, Neihgbor face: {neighbor_face_normalized}")
+                    # print(f"{self._id}, Ui velocity: {self._velocity_field}, Niehgbor velocity: {ngh['neighbor_velocity_field']}")
+                    # print(f"{self._id}, Average velocity: {v_avg}, Normal vector: {normal}")
+
+                    # Compute flux across the interface
+                    flux_contribution = self.flux(
+                        self._oil_amount, 
+                        ngh['neighbor_oil_amount'], 
+                        normal, 
+                        v_avg
                     )
-        # Update oil amount for this cell
-        self._oil_amount += up
+
+                    # Accumulate the flux contribution
+                    total_flux += flux_contribution
+
+        # Update the oil amount using the property setter
+        return self._oil_amount - (self._delta_t / self._area) * total_flux
 
     def flux(self, u_i, u_ngh, nu, v):
         """

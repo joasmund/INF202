@@ -3,7 +3,7 @@ toml
 argparse
 matplotlib.pyplot
 abc
-meshio
+meshio[all]
 cv2
 pytest
 os
