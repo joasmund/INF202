@@ -3,7 +3,7 @@ import numpy as np
 
 
 class Cell(ABC):
-    def __init__(self, id, oil_amount, area, normal_vectors_with_faces, faces, velocity_field, neighbors, delta_t) -> None:
+    def __init__(self, id, oil_amount, area, normal_vectors_with_faces, faces, velocity_field, neighbors, delta_t, cell_in_bay = False) -> None:
         super().__init__()
         self._id = id
         self._oil_amount = oil_amount
@@ -13,6 +13,8 @@ class Cell(ABC):
         self._neighbors = neighbors
         self._velocity_field = velocity_field
         self._delta_t = delta_t
+        self._cell_in_bay = cell_in_bay  # Add new attribute
+
 
 
 class Vertex(Cell):

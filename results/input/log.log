@@ -1,0 +1,10 @@
+2025-01-22 00:11:58,662 - INFO - Starting simulation with config: /Users/jasmundvaag/Documents/GitHub/INF202/input.toml
+2025-01-22 00:11:58,662 - INFO - Loading configuration from: /Users/jasmundvaag/Documents/GitHub/INF202/input.toml
+2025-01-22 00:11:58,663 - INFO - Configuration file loaded successfully
+2025-01-22 00:11:58,663 - INFO - Using default tStart value: 0
+2025-01-22 00:11:58,663 - INFO - Configuration loaded with all required parameters
+2025-01-22 00:11:58,663 - INFO - Using mesh file: bay.msh
+2025-01-22 00:11:58,663 - INFO - Simulation parameters: nSteps=500, tStart=0, tEnd=0.2
+2025-01-22 00:11:58,663 - INFO - Loading mesh from bay.msh
+2025-01-22 00:11:58,670 - ERROR - Mesh processing failed: 'Mesh' object has no attribute 'cell_type_mapping'
+2025-01-22 00:11:58,670 - ERROR - Fatal error in simulation: 'Mesh' object has no attribute 'cell_type_mapping'

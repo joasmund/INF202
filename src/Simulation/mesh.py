@@ -31,12 +31,30 @@ class Mesh:
         # To store the resulting dictionary with all the required information
         final_cell_data = {}
 
+        # Get borders from geometry config if available
+        borders = [[0.0, 0.45], [0.0, 0.2]]  # Default values from input.toml
+        x_range = borders[0]
+        y_range = borders[1]
+
         for cell_type, cell_data in self._mesh.cells_dict.items():
             for local_index, cell in enumerate(cell_data):
                 # Create global index mapping
                 cell_type_mapping[(cell_type, local_index)] = global_index
                 global_cell_index = global_index
                 global_index += 1
+
+                # Check if cell is in bay area (for triangles only)
+                cell_in_bay = False
+                if len(cell) == 3:  # Only for triangles
+                    # Calculate cell centroid
+                    points = [self._mesh.points[node_idx][:2] for node_idx in cell]
+                    centroid_x = sum(p[0] for p in points) / 3
+                    centroid_y = sum(p[1] for p in points) / 3
+                    
+                    # Check if centroid is within borders
+                    if (x_range[0] <= centroid_x <= x_range[1] and 
+                        y_range[0] <= centroid_y <= y_range[1]):
+                        cell_in_bay = True
 
                 # Perform additional processing
                 num_nodes = len(cell)
@@ -72,7 +90,8 @@ class Mesh:
                     for face in cell_faces.get(global_cell_index, [])
                 ],
                 'velocity_field': ((velocity_fields.get(global_cell_index, np.array([0, 0])))),
-                'neighbors': []
+                'neighbors': [],
+                'cell_in_bay': cell_in_bay  # Add the bay status to cell data
             }
 
             # Adding details for each neighbor
@@ -105,6 +124,15 @@ class Mesh:
         self.register_cell(self._cells, final_cell_data, cell_type_mapping)
 
         return final_cell_data, cell_type_mapping
+    
+    def calculate_bay_oil_sum(self):
+        """Calculate the total amount of oil in bay cells."""
+        total_oil = 0.0
+        for cell in self._cells:
+            if hasattr(cell, '_cell_in_bay') and cell._cell_in_bay:
+                total_oil += cell.oil_amount
+        return total_oil
+
 
     def initial_oil(self, cell_points, point_coordinates):
         x_star = np.array([0.35, 0.45])
@@ -207,7 +235,57 @@ class Mesh:
                 cell_neighbors[cells[0]].add(cells[1])
                 cell_neighbors[cells[1]].add(cells[0])
         return cell_neighbors
+          
+    def mark_border_cells(self, borders):
+        """
+        Mark cells that fall within the specified border coordinates.
+        
+        Args:
+            borders (list): List of coordinate pairs defining the border region
+                        Format: [[x_min, x_max], [y_min, y_max]]
+        
+        Returns:
+            dict: Dictionary mapping cell indices to their border status
+        """
+        border_cells = set()
+        x_range = borders[0]
+        y_range = borders[1]
+        
+        # Iterate through all cells
+        for cell_type, cell_data in self._mesh.cells_dict.items():
+            for local_index, cell in enumerate(cell_data):
+                if len(cell) == 3:  # Only consider triangles
+                    # Calculate cell centroid
+                    points = [self._mesh.points[node_idx][:2] for node_idx in cell]
+                    centroid_x = sum(p[0] for p in points) / 3
+                    centroid_y = sum(p[1] for p in points) / 3
+                    
+                    # Check if centroid is within borders
+                    if (x_range[0] <= centroid_x <= x_range[1] and 
+                        y_range[0] <= centroid_y <= y_range[1]):
+                        global_index = self.cell_type_mapping[(cell_type, local_index)]
+                        border_cells.add(global_index)
+        
+        self.border_cells = border_cells
+        return border_cells
 
+    def calculate_border_oil_sum(self):
+        """
+        Calculate the total amount of oil in cells marked as border cells.
+        
+        Returns:
+            float: Sum of oil in border cells
+        """
+        if not hasattr(self, 'border_cells'):
+            return 0.0
+            
+        total_oil = 0.0
+        for cell in self._cells:
+            if cell.id in self.border_cells:
+                total_oil += cell.oil_amount
+                
+        return total_oil
+       
     def register_cell(self, cells, final_cell_data, cell_type_mapping):
         cf = CellFactory()
         cf.register("vertex", Vertex)
