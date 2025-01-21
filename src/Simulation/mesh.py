@@ -68,7 +68,7 @@ class Mesh:
                 'oil_amount': (oil_values.get(global_cell_index, 0)),
                 'area': (areas.get(global_cell_index, 0)),
                 'faces': [
-                    (face, face_with_normal_vector.get(face)) 
+                    (face_with_normal_vector.get(face)) 
                     for face in cell_faces.get(global_cell_index, [])
                 ],
                 'velocity_field': ((velocity_fields.get(global_cell_index, np.array([0, 0])))),
@@ -176,8 +176,8 @@ class Mesh:
         # Check if the normal points outward
         if np.dot(normal, vector_to_face_midpoint) < 0:
             normal = -normal  # Flip the normal if it's pointing inward
-        
-        return normal
+
+        return face, normal
 
     def find_faces(self, num_nodes, cell, global_cell_index, cell_faces, face_to_cells):
         if num_nodes == 1:

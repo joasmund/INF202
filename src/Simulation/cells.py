@@ -57,18 +57,16 @@ class Triangle(Cell):
     def oil_amount(self, value):
         self._oil_amount = value
     
-        
-        
-        
     def update_oil_amount(self):
         total_flux = 0  # Initialize the total flux for the current cell
 
-        for ngh in self._neighbors:
+        for face, normal in self._normal_vectors_with_faces:
+            for ngh in self._neighbors:
             # Find the matching face and normal vector for the neighbor
-            for face, normal in self._normal_vectors_with_faces:
                 # Normalize and sort both face representations
                 face_normalized = sorted(map(int, face))  # Convert face to sorted list of integers
 
+                # print(self._id, face, normal)
                 # Flatten ngh['neighbor_faces'] if it contains tuples
                 neighbor_face_flattened = [int(vertex) for pair in ngh['neighbor_faces'] for vertex in pair]
                 neighbor_face_normalized = sorted(neighbor_face_flattened)  # Normalize neighbor faces

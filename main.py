@@ -26,6 +26,8 @@ if __name__ == "__main__":
     mesh = Mesh(mesh)
     final_cell_data, cell_type_mapping = mesh.main_function()
 
+    # for cell in mesh._cells:
+    #     print(cell)
     # Initialize lists for storing the triangles and oil amounts
     triangles = []
     in_oil_amount = []
