@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-
 import numpy as np
 
 
@@ -132,7 +131,7 @@ class Triangle(Cell):
         """
         return np.mean(self.point_coords, axis=0)
 
-    def midpoints(self):
+    def midpoints(self): #Deprecated
         points = self.point_coords
         return (points + np.roll(points, shift=-1, axis=0)) / 2
 
@@ -163,7 +162,8 @@ class Triangle(Cell):
         return np.mean(data[self._pointIds])
 
     def flux(self, ngh, nu, v):
-        if np.dot(v, nu):
+        res = np.dot(v, nu)
+        if res > 0:
             return self._idx * np.dot(v, nu)
         else:
             return ngh * np.dot(v, nu)
