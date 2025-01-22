@@ -19,7 +19,7 @@ def run_simulation(config_path, output_dir):
         # Load configuration first to get the log name
         with open(config_path, 'r') as f:
             raw_config = toml.load(f)
-        log_name = raw_config.get("IO", {}).get("logName", "simulation")
+        log_name = raw_config.get("IO", {}).get("logName", "logfile")
         
         # Create single logger instance that will be used throughout
         logger = setup_logger(output_dir, log_name)
