@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from src.Simulation.solver import CellFactory 
+from src.Simulation.factory import CellFactory 
 from src.Simulation.cells import Cell, Vertex, Line, Triangle
 
 @pytest.fixture
