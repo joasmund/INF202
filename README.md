@@ -57,27 +57,35 @@ python test_plot.py
 ## Project Structure
 
 ```
-INF202/
-├── src2/
-│   ├── Simulation/
-│   │   ├── cells2.py
-│   │   ├── functions2.py
-│   │   ├── mesh2.py
-│   └── main2.py
-├── random_functions/
-│   ├── parser.py
-│   ├── toml_read.py
-├── inputs/
-│   ├── input.toml
-│   ├── solution.txt
-├── tests/
-│   ├── test_plot.py
-├── scanner.py
-├── requirements.txt
-├── README.md
-└── Report/
-    ├── main.tex
 ```
+INF202/
+├── src/
+│   ├── Functions/
+│   │   ├── finder.py
+│   │   ├── logger.py
+│   │   └── parser.py
+│   └── Simulation/
+│       ├── cells2.py
+│       ├── functions2.py
+│       └── mesh2.py
+├── tests/
+│   ├── finder_test.py
+│   ├── logger_test.py
+│   ├── parser_test.py
+│   └── fasit_test.py
+├── results/
+│   └── input/
+│       ├── plots/
+│       └── testing.log
+├── requirements.txt
+├── .gitignore
+└── README.md
+```
+
+The project follows a standard Python project structure:
+- `src/`: Contains the core simulation code and utility functions
+- `tests/`: Contains unit tests for the various components
+- `results/`: Stores simulation outputs and visualizations
 
 ## Configuration
 
@@ -128,4 +136,3 @@ Contributions are welcome! Please fork the repository and create a pull request 
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
-```
