@@ -1,7 +1,7 @@
 import pytest
 import os
 from types import SimpleNamespace
-from your_module import get_search_directory, setup_output_directory  # Replace with actual module
+from src.Functions.directories import get_search_directory, setup_output_directory  # Replace with actual module
 
 @pytest.fixture
 def mock_args():
