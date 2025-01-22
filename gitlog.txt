@@ -1,0 +1,1009 @@
+commit ed6993f0a7dea6dfa4b075c5b02f80538fa1f343
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Wed Jan 22 13:39:52 2025 +0100
+
+    delete: remove obsolete IDE configuration files
+
+commit d6254643f43f6ce3afca980caac6536d95b52ce1
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Wed Jan 22 13:35:24 2025 +0100
+
+    chore: new pdf
+
+commit 2c1fff69bdf9bd5fde1eff889338228a53bb30e5
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Wed Jan 22 13:30:22 2025 +0100
+
+    delete: remove obsolete test file and enhance triangle tests with fixtures
+
+commit 35e61b8efebde1f3614c50e521e25a6e7b2a5ed6
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Wed Jan 22 13:23:19 2025 +0100
+
+    delete: remove obsolete test files and refactor files
+
+commit 019449c595a4ece93ce7f9bdbaad24e3a24b5909
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Wed Jan 22 13:13:40 2025 +0100
+
+    refactor: reorganize project structure and remove unused configuration files
+
+commit b38e71580f13f768423279984587b574ac0c97c1
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Wed Jan 22 13:07:56 2025 +0100
+
+    delete: remove main report LaTeX file
+
+commit 2967d7493b4f07df029c0dbc7efc9e5f63eee2b6
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Wed Jan 22 12:59:52 2025 +0100
+
+    No changes made
+
+commit e949e5cb6f98ce686e5f0ab2b78faf373da2aa7e
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Wed Jan 22 12:55:22 2025 +0100
+
+    fixed logic
+
+commit 25039314b331276d3e76c8cee1ebbedeedb03a63
+Merge: 8585cf9 01fe550
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Wed Jan 22 12:53:15 2025 +0100
+
+    merging
+    Merge branch 'fix/restartfile' of github.com:joasmund/INF202 into fix/restartfile
+
+commit 8585cf9a9f30aea8746c2b30c70f66992039ecdd
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Wed Jan 22 12:52:43 2025 +0100
+
+    stash change
+
+commit 01fe5509d2c04e1e2c3b49e198eff527f5b7720f
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Wed Jan 22 12:47:52 2025 +0100
+
+    refactor: remove unused configuration and logging files
+
+commit 6abbe783f2d004c72405593923881723e42418d8
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Wed Jan 22 12:07:14 2025 +0100
+
+    feat: update simulation configuration and logging settings
+
+commit 385397250f7654c2361aa3bf5a9e491a8fbce933
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Wed Jan 22 11:36:28 2025 +0100
+
+    refactor: clean up simulation code and update requirements
+
+commit f75d285a5fbb808f69cdc7debcdba7a9b1211e27
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Wed Jan 22 09:18:01 2025 +0100
+
+    fix: update default log name in simulation to 'logfile'
+
+commit fe32c012074dd1e3b413b9583d9cdd0b8942e579
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Wed Jan 22 09:12:44 2025 +0100
+
+    chore: reverted bug in simulation logging
+
+commit f5b3cea02b54e426232c63fe9820905df2a976fc
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Tue Jan 21 23:22:48 2025 +0100
+
+    feat: implement configuration file handling and simulation setup
+
+commit 6651d7304ae3f6c1ed4b9855558759fc1b145250
+Merge: b81d7d8 3a054e0
+Author: Jørgen Asmundvaag <142325633+joasmund@users.noreply.github.com>
+Date:   Tue Jan 21 20:11:46 2025 +0100
+
+    Merge pull request #44 from joasmund/chore/rewrite
+    
+    feat: new main file
+
+commit 3a054e0cf2951d8dc46362eb5ee63db55d051f8a
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Tue Jan 21 20:10:08 2025 +0100
+
+    feat: new main file with argparse, plotting and video creation implemented
+    
+    new structure with command line arguments, plotting based on tomml file
+    parameters and video creation for the files ran
+
+commit 27734461b013bad6917abaced26b9e25cd80ffd8
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Tue Jan 21 20:07:50 2025 +0100
+
+    chore: added config examples
+    
+    added config files for testing of command line arguments
+
+commit 629309c127d509ea27b30d0e2c23f9921d444544
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Tue Jan 21 11:25:50 2025 +0100
+
+    adding latest changes
+
+commit 792541701a69abd72a08e197f7da82a2bccbd558
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Mon Jan 20 23:41:53 2025 +0100
+
+    Added plots
+
+commit bcac0ffe96be978d2a592b87ea7747bff7aa78d0
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Mon Jan 20 22:41:28 2025 +0100
+
+    pushing latest changes
+
+commit b81d7d81e6fbba41192a4be9f05b00b4104f565d
+Merge: 50bed7c 7a9d4e1
+Author: Norrum <146004212+Norrum@users.noreply.github.com>
+Date:   Mon Jan 20 21:03:01 2025 +0100
+
+    Merge pull request #43 from joasmund/Cell
+    
+    Cell
+
+commit 50bed7c2ad9804b3c5549a0c7a6212c5ffae362c
+Merge: 5ae24e3 65c2a26
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Mon Jan 20 11:40:42 2025 +0100
+
+    merging branch
+    Merge branch 'main' of github.com:joasmund/INF202
+
+commit 54c69207e1e5c688ccc113380629b46be96194ef
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Mon Jan 20 11:26:00 2025 +0100
+
+    Adding latest changes
+
+commit 65c2a26dfbbe10ff0220d1abbbc6a2aafe3bdd0d
+Merge: 9c7bb84 0eee2a3
+Author: Jørgen Asmundvaag <142325633+joasmund@users.noreply.github.com>
+Date:   Mon Jan 20 10:44:00 2025 +0100
+
+    Merge pull request #39 from joasmund/chore/folder-structure
+    
+    test: added tests for folder-structuring
+
+commit 0eee2a317c9373a6962e79fe4fd230dcaaaa1183
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Mon Jan 20 10:43:28 2025 +0100
+
+    test: added tests for folder-structuring
+
+commit 9c7bb8418f5fa2566212a6ebed7e41ac782ebd46
+Merge: 2312f67 7a455c7
+Author: Jørgen Asmundvaag <142325633+joasmund@users.noreply.github.com>
+Date:   Mon Jan 20 10:42:47 2025 +0100
+
+    Merge pull request #38 from joasmund/chore/folder-structure
+    
+    Chore/folder structure
+
+commit 5ae24e39bcef9a6087eef04802a44b1d617c11fb
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Mon Jan 20 10:40:32 2025 +0100
+
+    deleted some more files and updated the main.py file
+
+commit 2312f67a7f75c1c574a2ddbe0082ff6f927551be
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Mon Jan 20 10:20:23 2025 +0100
+
+    chore: Cleanedup some files that are no longer in use
+
+commit 68190181312fac02c40817c5c87c4799a35d9cb7
+Merge: e7f6ee6 46571f2
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Mon Jan 20 10:11:51 2025 +0100
+
+    Adding latest changes
+    Merge branch 'main' of github.com:joasmund/INF202
+
+commit e7f6ee6f62955f64cfd587d45599d43d5bc65d4a
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Mon Jan 20 10:10:53 2025 +0100
+
+    Made some improvement to the simluation
+    
+    Changing some of the values in the vector calculations. Removing
+    normalisation of normal vectors. Looks like it is going in the right
+    direction.
+
+commit 8510ae28c5a046714873de15117debb5e9760c0e
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Sun Jan 19 23:15:17 2025 +0100
+
+    Have added a simulation, not working
+    
+    The simulation is wrong, most likely because of the vectors either
+    pointing in the wrong direction or they are not properly scaled.
+    
+    Have to fix this issue. Committing all changes in the mean time.
+
+commit 7a455c7605afd8969272aca933a76ac3d65037fb
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Sun Jan 19 21:52:45 2025 +0100
+
+    fix: fixed arpgarse conflicts
+    
+    I think all comflicts have been resolved regarding the different command
+    line arguments. input.toml is set as default, per the task description
+
+commit 46571f22751ab82f9d5f328087f423b4646b84aa
+Merge: a467fee 0f71d91
+Author: Jørgen Asmundvaag <142325633+joasmund@users.noreply.github.com>
+Date:   Sun Jan 19 20:30:00 2025 +0100
+
+    Merge pull request #36 from joasmund/chore/extend-logging
+    
+    chore: update requirements.txt
+
+commit 0f71d91f4bf2b81ee7baab9e36c6f9e337e7e356
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Sun Jan 19 20:29:17 2025 +0100
+
+    chore: update requirements.txt
+    
+    add os and pytest to requirements list
+
+commit 7e83c0b1fe77586c79ad838484c4d1e60f3a75fe
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Sun Jan 19 20:24:11 2025 +0100
+
+    misc: saving files for reference
+
+commit a467fee50801f351499b2fe63bc573ebbdf6e349
+Author: Jørgen Asmundvaag <142325633+joasmund@users.noreply.github.com>
+Date:   Sun Jan 19 20:17:56 2025 +0100
+
+    Update README.md
+
+commit 08dae730ba375a98ba842418a023ca5b366ae7b2
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Sun Jan 19 20:14:08 2025 +0100
+
+    chore: minor readme changes
+    
+    Added authors to gitignore
+
+commit 4f3e2034f09baf519f3590b3e2b549e9569cdbb4
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Sun Jan 19 20:10:36 2025 +0100
+
+    chore: update gitignore
+    
+    Updated gitignore to include movie files
+
+commit 3f0c3ebca01de51b0c8c71cae0e8b4c941ded5be
+Merge: 75da884 12f5631
+Author: Jørgen Asmundvaag <142325633+joasmund@users.noreply.github.com>
+Date:   Sun Jan 19 20:03:57 2025 +0100
+
+    Merge pull request #35 from joasmund/chore/folder-structure
+    
+    Chore/folder structure
+
+commit 75da884324412f6eca37ed8cf934710a4f7a478d
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Sun Jan 19 19:53:45 2025 +0100
+
+    feat: finished all initial calculations
+    
+    The plot seems like it is working, which means the initial oil values
+    and the cell id's should be working correctly. Hopefully the same is
+    correct for the other mathematical functions.
+    
+    Have finished computing everything i believe is necessary in order to
+    update oil values.
+    
+    Only missing making the simulation.
+
+commit 12f56317a9a641d15a8973e52a0e9415f8484c72
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Sun Jan 19 18:23:33 2025 +0100
+
+    fix: restructure logic and add error handling for folder creation
+    
+    New file without unnecessary code and with error handling. If folder is
+    created already.
+
+commit b14b0ed78c40096f26949cd8dd817e15c0dc9e2a
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Sun Jan 19 16:09:18 2025 +0100
+
+    chore: update README
+    
+    First draft for readme file
+
+commit 47618ff8f3692b16b5bff2a0930df6fbc576c856
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Sun Jan 19 15:35:33 2025 +0100
+
+    feat: add script for extracting toml files from dir
+    
+    Using os to skim through directory, and extract all toml files into a
+    list
+
+commit 1267e5b0ed5688de06abf81af0a70dad4278cd57
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Sun Jan 19 11:32:10 2025 +0100
+
+    feat:: changed file name for one of the test files for faster navigation
+
+commit 7464082cd8bdd4134a224265ea99c0efbd05e001
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Sun Jan 19 11:22:40 2025 +0100
+
+    chore: Adding all changes as my IDE stopped working
+    
+    Hoping this will fix the issue
+
+commit d55095173b34acd0ab405f8c29ac1047b560575d
+Merge: 0d8294a 3984d70
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Fri Jan 17 10:18:26 2025 +0100
+
+    Merge branch 'chore/rewrite'
+
+commit 3984d705aa47946d770ca9b0da24ed046aa7ed31
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Fri Jan 17 10:16:43 2025 +0100
+
+    chore: rewrote the entire logic of the code to make it more optimized
+    
+    Calculating more in mesh class to reduce the number of operations.
+    
+    Working on adding all the math in their own methods and adding the
+    necessary data to the respective cell class.
+
+commit 0d8294af2e56b3369a744aa6c8a2896a5047b71d
+Merge: 954ea6f 2211ced
+Author: Jørgen Asmundvaag <142325633+joasmund@users.noreply.github.com>
+Date:   Thu Jan 16 17:52:35 2025 +0100
+
+    Merge pull request #33 from joasmund/fix/class-tests
+    
+    feat: implemented new tests for classes
+
+commit 2211cedad2dcfd1f4ea8dce4d7e56ee66a0855d2
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Thu Jan 16 17:36:43 2025 +0100
+
+    feat: implemented new tests for classes
+    
+    feat: Created new file with pytest fixtures and tests for the cells.py
+    file. Might expand if needed
+
+commit 954ea6f8bc1652bd3cbebfda9ec3a3c9b2ec85a2
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Thu Jan 16 15:26:47 2025 +0100
+
+    chore: update .gitignore to include .pytest_cache
+
+commit 57ed391b6763df483918f652f85621d9dd4ab8b1
+Author: Jørgen Asmundvaag <142325633+joasmund@users.noreply.github.com>
+Date:   Thu Jan 16 15:23:56 2025 +0100
+
+    Fix/extend params (#32)
+    
+    * fik: rename toml file
+    
+    renamed toml file to the right name in regard to the task description
+    
+    * fix: restructured toml error handling
+    
+    Improved the structure on toml file reading and parameret handling.
+    Also added the input.txt file for logic.
+
+commit 575351f2a95e34eda121320e94d7f2a7193c7a1a
+Merge: 179928d 0465c43
+Author: Jørgen Asmundvaag <142325633+joasmund@users.noreply.github.com>
+Date:   Wed Jan 15 12:29:05 2025 +0100
+
+    Merge pull request #31 from joasmund/feat/logger
+    
+    feat: started on logging implementation
+
+commit 0465c43303a7359597ca6373b3899072786877dd
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Wed Jan 15 12:18:46 2025 +0100
+
+    feat: started on logging implementation
+    
+    Started on framework to implement logging
+
+commit 55b784831517bd816825313e41874ff68bfe6625
+Merge: 88a32aa c59852a
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Tue Jan 14 14:56:56 2025 +0100
+
+    testing editing commit comment
+
+commit 88a32aa7800c243a36d45733f3cec7a73b13c5eb
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Tue Jan 14 14:53:03 2025 +0100
+
+    Editing message
+
+commit 5066e640918947b96aed1466b294b61ea6eaf412
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Tue Jan 14 14:45:10 2025 +0100
+
+    feat: rewrote the find neighbor function to a mucher faster alternative
+    
+    Rewrote the find neighbor funtion to take use of the nodes directly
+    retrieved from the dict stored using the meshio biult in function.
+    
+    Created faces from the nodes and found neighbors based on the faces
+    (edges). Went from 8.5 seconds to 0.007 seconds!
+
+commit c59852aa7702d89f7628d6c6e16eaab0bbf77f18
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Tue Jan 14 14:45:10 2025 +0100
+
+    feat: rewrote the find neighbor function to a mucher faster alternative
+    
+    Rewrote the find neighbor funtion to take use of the nodes directly
+    retrieved from the dict stored using the meshio biult in function.
+    
+    Created faces from the nodes and found neighbors based on the faces
+    (edges). Went from 8.5 seconds to 0.028 seconds!
+
+commit 179928d1bfa1ebf73976873a5d2da528681be0ac
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Tue Jan 14 13:00:39 2025 +0100
+
+    docs: added requirements.txt
+    
+    Created requirements.txt file for necessary packages
+
+commit ec2b971490a3552f2cdb32ef4a3031fa1b934148
+Merge: 9e9f3b8 6f7c816
+Author: Jørgen Asmundvaag <142325633+joasmund@users.noreply.github.com>
+Date:   Tue Jan 14 12:48:51 2025 +0100
+
+    Merge pull request #30 from joasmund/fix/more-params
+    
+    fix: added missing parameter checks
+
+commit 6f7c816ea338fdc0630dc219d6df53e591c9eed0
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Tue Jan 14 12:47:53 2025 +0100
+
+    fix: added missing parameter checks
+    
+    Added some missing parameter checks and removed clutter
+
+commit 9e9f3b8e52099f6fe544826bf5451003a496673d
+Merge: e9baa37 141e521
+Author: Jørgen Asmundvaag <142325633+joasmund@users.noreply.github.com>
+Date:   Mon Jan 13 17:42:38 2025 +0100
+
+    Merge pull request #29 from joasmund/feat/toml-error-handling
+    
+    feat: implement checks for parameters in config file
+
+commit 141e521c8d4dd762f51703b5865b59c7f0c51fdb
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Mon Jan 13 17:40:26 2025 +0100
+
+    feat: implement checks for parameters in config file
+    
+    feat: implemented checks to make sure the config hile has the required
+    parameters to simulate and create potential video.
+    
+    Might add more checks
+    
+    Problem: Export writefrequency to main file
+
+commit 5f89962eb5fc21cb48987b259f6c2a343489c763
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Mon Jan 13 16:48:26 2025 +0100
+
+    chore: Cleaned up some commented code and moved the midpoint function into its own method
+
+commit 9b477129cf5133c7ea49ac59fef2354cf662b62b
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Mon Jan 13 16:20:18 2025 +0100
+
+    chore: General cleanup
+    
+    Removed the function in line_normals that calculated all the middle
+    points for each line in triangle. Working on moving this to its own
+    method for the triangle class.
+    
+    Fixed the __str__ to still work and checked the the values are the same
+    as previous
+
+commit c0e60b5479c36e15531a7b936cf9632997bec4fa
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Mon Jan 13 16:08:38 2025 +0100
+
+    Added the flux function. Deleted the upadte oil function
+
+commit e9baa37ddb56b3f76434bcb6b85a3ee519bcd6af
+Merge: 861bce2 b03a282
+Author: Jørgen Asmundvaag <142325633+joasmund@users.noreply.github.com>
+Date:   Mon Jan 13 16:08:29 2025 +0100
+
+    Merge pull request #27 from joasmund/feat/parser
+    
+    feat: argparse for file and folder input
+
+commit 861bce2766527531534efdb4cd7917adcf73d0cc
+Merge: 37395eb 0ebb0b2
+Author: Jørgen Asmundvaag <142325633+joasmund@users.noreply.github.com>
+Date:   Mon Jan 13 16:06:00 2025 +0100
+
+    Merge pull request #26 from joasmund/test/test-classes
+    
+    Test/test implementation for classes
+
+commit b03a282ea0294e8ca5bc704783cb586d02fd2983
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Mon Jan 13 16:03:18 2025 +0100
+
+    feat: argparse for file and folder input
+    
+    Added implementation for command line arguments to specify file and
+    folder names for config files.
+
+commit 698db1789c4e6456ecfca0cfc8aed3e448ce7fbf
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Mon Jan 13 15:30:00 2025 +0100
+
+    feat: Added the initial oil values to the cells
+    
+    The initial oil values are completed and seem to work properly.
+    
+    Added the midpoint of each line in a triangle.
+    Consider moving this calculation to the midpoint method for better
+    performance.
+    
+    Working at trying to implement the updates for the oil values inside the
+    cells.
+
+commit 0ebb0b2c70d35f4d0748ad49e23c9d4f62494345
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Mon Jan 13 14:09:00 2025 +0100
+
+    bug: error in code, pushing to get feedback
+
+commit 7a9d4e1384b918a9a73d65fa85226d18f6350bee
+Author: Sebastian Sverkmo <sebastian.sverkmo@outlook.com>
+Date:   Mon Jan 13 14:08:19 2025 +0100
+
+    Endret navn
+
+commit 5b2630fa8664fac6b35f2845e6dd3c4969a4dd3f
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Mon Jan 13 12:45:19 2025 +0100
+
+    test: implemented tests for mesh files
+    
+    test: Started on structuring tests for mesh file import, and implemented
+    some tests to make sure the files are of type .msh, are not empty and
+    that the file exists.
+    
+    Problem: Has to change the path to the folder the users generates
+
+commit 7a71f41547ad7cf53f128ff7dba3b5f5320b0f6e
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Mon Jan 13 12:43:38 2025 +0100
+
+    test: added test for
+    
+    test: started on tests for the solver file, and implemented a test for
+    cell factory register function
+
+commit eaae1492ed8f40ae812d66b5057bb36fb1600dfc
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Mon Jan 13 11:40:21 2025 +0100
+
+    Commented out __str__ and attempted to alter the logic for computeNeighbor method
+
+commit 2701b8c81cbe4e641a01b0b69db55c3b644affec
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Sun Jan 12 22:32:46 2025 +0100
+
+    test: implented structure for testing of mesh file
+    
+    Implemented some tests for the .msh files.
+    
+    Problem:
+    have to implement the righ path, and scale for multiple files.
+
+commit 5e181c84bc155bb957da268f5aa9ab24e3ee3a55
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Sun Jan 12 22:01:01 2025 +0100
+
+    feat: Improved the efficieny of the program
+    
+    Made the points instanly stored as a 3x2 numpy stacked vector in order
+    to perform less operations.
+    
+    Also improved the print in the __str__ method for the triangle in order
+    to more easily be able to understand the data being extracted.
+
+commit 42a158c6bb5dae5ebe82a553cd828f88bc555001
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Sun Jan 12 19:43:31 2025 +0100
+
+    feat: Improved the neighbor search efficiency
+    
+    Changed the find neighbor function to use a mapping for finding
+    neighbors. This improved efficiency.
+    
+    Also changed a minor bug were the line cells would include it self as a
+    neighbor. This is now fixed, so that the lines only include one triangle
+    as a neighbor.
+
+commit 37395eb9fff1816a3b1c53c3a126cf46eedaf1a8
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Sun Jan 12 15:30:31 2025 +0100
+
+    chore: Merger and deleted an old file
+    
+    Merged the old structure branch into main as this is how we would like
+    to continue working.
+    
+    Deleted the old file that is no longer in use, that contained all of the
+    classes and operations in a single file.
+
+commit c49a7a0694e8e91246ba401a6c3cd858bba9ff94
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Sun Jan 12 15:28:53 2025 +0100
+
+    test: started on testing of classes
+
+commit 4ba4883956c39f7c7f4bf97032ef78bef1e7a6f1
+Merge: d52d96e 9e62fb0
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Sun Jan 12 15:24:37 2025 +0100
+
+    Replacing the old main with this new structure
+    Merge branch 'main' into structure
+
+commit d52d96e21e67cf09df1370c602bf6f32d72c6eaf
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Sun Jan 12 14:53:13 2025 +0100
+
+    feat: Added the calculation of area of the triangles
+    
+    Did this by retrieving the points and stacking the list of arrays into
+    one 3x3 numpy array. Then i removed the z-axis from and turned it into a
+    3x2 array. Then i used the formula for finging the area of a triangle
+    from three points.
+    
+    IMPORTANT! Remember to implement this optimilazation when adding the
+    points to the triangle immidiatly, not when calculating the area.
+
+commit 6c4d6525fcf27c9f23b81116faaeb398d0e8deec
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Sat Jan 11 13:23:16 2025 +0100
+
+    Commiting latest changes to update for testing
+    
+    Made some minor changes for calculating the midpoint.
+    
+    Moved the calculation of midpoint to the triangle function as we do not
+    need the midpoint for vertex or line.
+
+commit 23b3742759e7928835d17078bd3a240fe9605472
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Fri Jan 10 15:31:42 2025 +0100
+
+    Removed a comment
+
+commit f769585f9061acf611c9cc5b17431821c17d578b
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Fri Jan 10 14:43:28 2025 +0100
+
+    Finalized the problems that did not work and the new structure is now fully functional
+    
+    Changed the logic in the mesh and cell class to pass the points of the
+    cell into the cell class. So that we are able to perform computations in
+    the cell class methods.
+
+commit 8d77964dc44ae987257a6afbba87a7e911e39756
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Fri Jan 10 09:27:50 2025 +0100
+
+    feat: Changed structure to something more fitting for the final project
+    
+    All the files should now be more structured.
+    
+    Created a new folder for the random functions that we might implement
+    later.
+    
+    The new structure is not finalised as the same logic as before does not
+    work anymore. Have to do some adjustments still.
+
+commit 9e62fb0b77ada0304ef162ac2ae99453364b7cb7
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Thu Jan 9 16:56:53 2025 +0100
+
+    feat: add configuration loading from TOML file
+
+commit 76e222a2c3cbed142eecd9117c822ad766b1b041
+Author: Sebastian Sverkmo <sebastian.sverkmo@outlook.com>
+Date:   Thu Jan 9 13:19:39 2025 +0100
+
+    Fixed grammer
+
+commit f02ccc222326a95ffa5c6cb4170ca44974662803
+Author: Sebastian Sverkmo <sebastian.sverkmo@outlook.com>
+Date:   Thu Jan 9 13:05:19 2025 +0100
+
+    Added some comments, fixed grammer, finding normal and direction
+
+commit fdc5b57eb34ac9c53e06fa084a4315e2e3a492df
+Author: Sebastian Sverkmo <sebastian.sverkmo@outlook.com>
+Date:   Thu Jan 9 13:02:12 2025 +0100
+
+    Added some comments, finding normal and direction
+
+commit 5cd5f764c16da828998e77925d4d41147f7da931
+Author: Sebastian Sverkmo <sebastian.sverkmo@outlook.com>
+Date:   Thu Jan 9 12:39:41 2025 +0100
+
+    La til vektorer og dot-produkt
+
+commit 52e61f0852dfbdb3e33b120dd624f4a67eb04830
+Author: Sebastian Sverkmo <sebastian.sverkmo@outlook.com>
+Date:   Thu Jan 9 12:38:16 2025 +0100
+
+    La til vektorsjekk og dot-produkt
+
+commit 0eb50edf60a1f5be6dd9ddf0de462a5be5305e8e
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Thu Jan 9 11:34:27 2025 +0100
+
+    new branch to fix structure
+
+commit a01a6045ed44008b85964e47e64457a9a786a5a1
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Thu Jan 9 09:10:35 2025 +0100
+
+    feat: add flow simulation functionality with configuration loading
+
+commit 7edfa3574b94970d318bc8f98f3b5ead7e4324bf
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Thu Jan 9 09:06:25 2025 +0100
+
+    added pseudo code
+
+commit f591f2be76a863d03eac8640e989329eb50f5bbf
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Thu Jan 9 08:46:30 2025 +0100
+
+    Normal vectors for each edge, first draft
+
+commit fd6e2bcc19a4312c67ad4e13e670f96c37a5cf84
+Merge: 87d569c b84d853
+Author: Jørgen Asmundvaag <142325633+joasmund@users.noreply.github.com>
+Date:   Wed Jan 8 15:32:39 2025 +0100
+
+    Merge pull request #23 from joasmund/streamlit
+    
+    feat: initialised streamlit dashboard
+
+commit 87d569c8f8c09707ce0040fa6e18c0f663a6723b
+Author: Jørgen Asmundvaag <142325633+joasmund@users.noreply.github.com>
+Date:   Wed Jan 8 15:31:32 2025 +0100
+
+    Update README.md
+
+commit 6191136c799642a6ee1e1a59ec2962ad48af5900
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Wed Jan 8 15:27:08 2025 +0100
+
+    normal vectors
+
+commit 51ff7eb3d5115238a53eedd8530f608f7fd1e09b
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Wed Jan 8 15:19:18 2025 +0100
+
+    added midpoint and midpoint print
+
+commit d24a0f73dc0238980f3ec48745a0d750a7bef863
+Merge: df249cc c855634
+Author: Jørgen Asmundvaag <142325633+joasmund@users.noreply.github.com>
+Date:   Wed Jan 8 14:54:14 2025 +0100
+
+    Merge pull request #22 from joasmund/tests
+    
+    Tests
+
+commit c85563433ea844fa77f7e21b383c7748568f12ea
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Wed Jan 8 14:53:46 2025 +0100
+
+    fix: small improvements to file structuring with testing
+
+commit df249ccc537c6637c108225c0400a36fa0eeefe3
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Wed Jan 8 14:07:52 2025 +0100
+
+    midpoint
+
+commit 696370f8502a180b0b1b9fea143b986618e56777
+Merge: 826c21d 5dfeea8
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Wed Jan 8 13:08:33 2025 +0100
+
+    Merge branch 'cells-data' of github.com:joasmund/INF202
+    Adding latest changes
+
+commit 5dfeea8a074d4fb6d893e5f77bdeaf6e19ca207c
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Wed Jan 8 13:07:30 2025 +0100
+
+    added time test to see performance
+
+commit 4a9639857dc8aadbc3e21981556f4c1f6fc0eb9b
+Author: Sebastian Sverkmo <sebastian.sverkmo@outlook.com>
+Date:   Wed Jan 8 13:05:04 2025 +0100
+
+    La til norm_calc
+
+commit f076660ced6ff1d3a4f484fe8fecd22378e638cf
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Wed Jan 8 12:55:29 2025 +0100
+
+    test: enhance cell tests and add pytest fixtures
+
+commit 270caee01df3215a985285215a4565527fd8be3c
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Wed Jan 8 12:54:33 2025 +0100
+
+    structure draft finished. And able to find all neighbors
+
+commit b84d853078cb40a216827b0fe7c7eabe891adcef
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Wed Jan 8 11:32:04 2025 +0100
+
+    feat: initialised streamlit dashboard
+
+commit 1ed8e91a9092a62ef03670923dd109b75f51327c
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Wed Jan 8 10:07:20 2025 +0100
+
+    saving progress
+
+commit 89daef6516ef8f705cba1ec0b7f5015f8811dd61
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Wed Jan 8 08:50:47 2025 +0100
+
+    started structure for main code
+
+commit 59d130a7bcdaf1b94552b15317f748abc6339932
+Author: Sebastian Sverkmo <sebastian.sverkmo@outlook.com>
+Date:   Tue Jan 7 16:39:58 2025 +0100
+
+    created file
+
+commit 826c21de03e9ac04f3b2fdc73daa92356dcab12e
+Merge: c7e5a19 522611b
+Author: Jørgen Asmundvaag <142325633+joasmund@users.noreply.github.com>
+Date:   Tue Jan 7 16:23:37 2025 +0100
+
+    Merge pull request #19 from joasmund/testing
+    
+    Testing
+
+commit 522611b105a6b43ada78ac477b3a06f8c0c7c5e2
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Tue Jan 7 16:22:45 2025 +0100
+
+    feat: add image creation and video generation scripts
+
+commit dc6b287ceebcb282149756843ad63f02f7502f5c
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Tue Jan 7 14:29:00 2025 +0100
+
+    testing: Initialised testing
+
+commit c7e5a19f4356275edbe5d9db532e13916c04cf70
+Merge: 8db8e33 eb107a9
+Author: Jørgen Asmundvaag <142325633+joasmund@users.noreply.github.com>
+Date:   Tue Jan 7 12:00:49 2025 +0100
+
+    Merge pull request #16 from joasmund/report
+    
+    report: added structure to report
+
+commit eb107a93bb4271ca6f9531a07ba07a126b9c12ee
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Tue Jan 7 12:00:20 2025 +0100
+
+    report: added structure to report
+
+commit 8db8e33498bc31735dd0b065463b21713386591f
+Merge: 2aaf81a 6390993
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Tue Jan 7 11:51:27 2025 +0100
+
+    Merge branch 'main' of github.com:joasmund/INF202
+    Adding to main
+
+commit 2aaf81ad7ed8a660920c892fb74cd061b4969aa8
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Tue Jan 7 11:48:02 2025 +0100
+
+    removed test
+
+commit f9ef580b9bd1716fdc8b93fc1d9bda3e7e66211f
+Author: ioeftedal <ivar.odegardstuen.eftedal@nmbu.no>
+Date:   Tue Jan 7 11:39:01 2025 +0100
+
+    test
+
+commit 6390993bcd54bfb8453e5fbc2cc33c56a89a3270
+Author: Jørgen Asmundvaag <142325633+joasmund@users.noreply.github.com>
+Date:   Mon Jan 6 17:56:58 2025 +0100
+
+    Update README.md
+
+commit 4930286e26da6b3325f3ed9977df3bb46b592414
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Mon Jan 6 15:42:01 2025 +0100
+
+    report: front page edits
+
+commit 634ccff1ac859d5f737f26f2c59ec9cc4b20d625
+Author: joasmund <142325633+joasmund@users.noreply.github.com>
+Date:   Mon Jan 6 15:28:58 2025 +0100
+
+    Created report
+
+commit 75849560f1c9a246dfdf96ef7342ca6236a71333
+Merge: 664bb84 e46434f
+Author: ioeftedal <ioeftedal@gmail.com>
+Date:   Mon Jan 6 15:18:58 2025 +0100
+
+    read mesh
+
+commit 664bb841fd327378b7c05b35c3c9086993d581fb
+Author: ioeftedal <ioeftedal@gmail.com>
+Date:   Mon Jan 6 15:16:16 2025 +0100
+
+    testing
+
+commit e46434fb52c81ae6b5b1a00f5056848cbb02450e
+Author: ioeftedal <ioeftedal@gmail.com>
+Date:   Mon Jan 6 15:11:30 2025 +0100
+
+    added bay.msh
+
+commit 02e6a5d29a9a126b832776ea751ca4284c5bdc05
+Author: ioeftedal <ioeftedal@gmail.com>
+Date:   Mon Jan 6 15:02:11 2025 +0100
+
+    matching plot as presentation
+
+commit 3b18ba1267d52e65a41d13387569264905dd8b41
+Author: ioeftedal <ioeftedal@gmail.com>
+Date:   Mon Jan 6 14:54:40 2025 +0100
+
+    push test
+
+commit 314f562e1133a873f9b26384764c580901117773
+Author: ioeftedal <ioeftedal@gmail.com>
+Date:   Mon Jan 6 14:52:46 2025 +0100
+
+    added gitignore file
+
+commit b2ac45f40022987a3adc20106ab81b2914a3c7f7
+Author: Jørgen Asmundvaag <142325633+joasmund@users.noreply.github.com>
+Date:   Mon Jan 6 12:56:45 2025 +0100
+
+    Initial commit
