@@ -10,6 +10,7 @@ class Mesh:
     def __init__(self, mesh, delta_t) -> None:
         self._mesh = mesh
         self._cells = []
+        self._delta_t = delta_t
 
     @property
     def mesh(self):
@@ -241,7 +242,7 @@ class Mesh:
                     faces=normal_vectors_with_faces,
                     velocity_field=velocity_field,
                     neighbors=neighbors,
-                    delta_t=0.01,  # Default delta_t
+                    delta_t=self._delta_t,
                 )
                 
                 cells.append(cell_object)
