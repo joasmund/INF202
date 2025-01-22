@@ -40,6 +40,8 @@ def run_simulation(config_path, output_dir):
         nSteps = config["settings"]["nSteps"]
         tStart = config["settings"]["tStart"]
         tEnd = config["settings"]["tEnd"]
+        delta_t = (tEnd - tStart) / nSteps
+        x_star = config["geometry"]["xStar"]
         writeFrequency = config["IO"]["writeFrequency"]
         
         start_time = time.time()
@@ -49,7 +51,7 @@ def run_simulation(config_path, output_dir):
         try:
             logger.info(f"Loading mesh from {mshName}")
             mesh = meshio.read(mshName)
-            mesh = Mesh(mesh)
+            mesh = Mesh(mesh, delta_t, x_star)
             final_cell_data, cell_type_mapping = mesh.main_function()
             logger.info("Mesh processing completed successfully")
         except Exception as e:
