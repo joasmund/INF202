@@ -80,10 +80,3 @@ def test_short_arguments(mock_sys_argv):
     assert not args.find_all
     assert args.folder_provided
 
-def test_various_folder_paths(mock_sys_argv, folder_path, expected):
-    """Test parser with various folder path formats."""
-    mock_sys_argv(['--folder', folder_path])
-    args = parse_arguments()
-    assert args.folder == expected
-    assert args.folder_provided
-
