@@ -1,9 +1,6 @@
 numpy
 toml
-argparse
-matplotlib.pyplot
-abc
+matplotlib
 meshio[all]
-cv2
+opencv-python
 pytest
-os

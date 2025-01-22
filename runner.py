@@ -45,4 +45,5 @@ def main():
             print("Continuing with next configuration file...")
 
 if __name__ == "__main__":
+    print("Starting on simulation runner...")
     main()

@@ -28,7 +28,7 @@ def run_simulation(config_path, output_dir):
         # Load complete configuration with defaults using the established logger
         config = load_config_with_defaults(config_path, logger)
         
-        # Continue with the rest of the simulation using the same logger
+        # Continue with simulation setup
         try:
             mshName = config["geometry"]["meshName"]
             logger.info(f"Using mesh file: {mshName}")
@@ -152,8 +152,23 @@ def run_simulation(config_path, output_dir):
             
             # Format and save results as text file with cell indices
             formatted_results = format_simulation_results(simulation_data, triangle_cell_indices)
-            results_file = os.path.join(output_dir, "simulation_results.txt")
+ 
+             # Get results filename from config or use default
+            results_filename = config.get("IO", {}).get("restartFile", "restartfile")
+            # Remove .txt extension if present in the config name
+            results_filename = results_filename.removesuffix('.txt')
             
+            # Extract directory path from results_filename if it contains a path
+            results_dir, base_filename = os.path.split(results_filename)
+            if results_dir:
+                # Create the full output directory including the subdirectory
+                full_output_dir = os.path.join(output_dir, results_dir)
+                os.makedirs(full_output_dir, exist_ok=True)
+                results_file = os.path.join(full_output_dir, f"{base_filename}.txt")
+            else:
+                # If no directory in results_filename, save directly in output_dir
+                results_file = os.path.join(output_dir, f"{results_filename}.txt")
+
             with open(results_file, 'w') as f:
                 f.write(formatted_results)
             

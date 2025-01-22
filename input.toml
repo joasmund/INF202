@@ -1,7 +1,7 @@
 
 [settings]
 nSteps = 500 # Number of steps
-#tStart = 0.1 # Start time
+tStart = 0.1 # Start time
 tEnd = 0.2   # End time
 
 [geometry]
@@ -11,6 +11,6 @@ borders = [[0.0, 0.45], [0.0, 0.2]] # Defines where fish are located
 xStar = [0.35, 0.45]
 
 [IO]
-logName = "log"                    # Name of the log file created
+logName = "testing"                    # Name of the log file created
 writeFrequency = 10                # Frequency of output video. If not provided, no video is recorded
 restartFile = "input/solution.txt" # Restart file must be provided if start time is provided.
