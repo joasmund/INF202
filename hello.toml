@@ -13,4 +13,4 @@ xStar = [0.35, 0.45]
 [IO]
 logName = "log"                    # Name of the log file created
 writeFrequency = 10                # Frequency of output video. If not provided, no video is recorded
-restartFile = "input/solution.txt" # Restart file must be provided if start time is provided.
+restartFile = "test/solution.txt" # Restart file must be provided if start time is provided.
