@@ -7,11 +7,21 @@ from src.Simulation.factory import CellFactory
 
 
 class Mesh:
-    def __init__(self, mesh) -> None:
+    def __init__(self, mesh, delta_t, x_star) -> None:
         self._mesh = mesh
+        self._cells = []
+        self._delta_t = delta_t
+        self._x_star = x_star
+
+    @property
+    def mesh(self):
+        return self._mesh
+
+    @property
+    def cells(self):
+        return self._cells
 
     def main_function(self):
-        self._cells = []  # List of all cells
         # Create a global cell index mapping
         global_index = 1
         cell_type_mapping = {}  # Maps (cell_type, local_index) to global_index
@@ -107,7 +117,7 @@ class Mesh:
         return final_cell_data, cell_type_mapping
 
     def initial_oil(self, cell_points, point_coordinates):
-        x_star = np.array([0.35, 0.45])
+        x_star = self._x_star
         oil_values = {}
 
         for global_cell_index, cell_points in cell_points.items():
@@ -236,7 +246,7 @@ class Mesh:
                     faces=normal_vectors_with_faces,
                     velocity_field=velocity_field,
                     neighbors=neighbors,
-                    delta_t=0.01,  # Default delta_t
+                    delta_t=self._delta_t,
                 )
                 
                 cells.append(cell_object)
