@@ -4,6 +4,8 @@ import toml
 import meshio
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import cm
+import matplotlib.colors as mcolors
 from matplotlib.tri import Triangulation
 from src.Simulation.mesh import Mesh
 from src.Simulation.cells import Triangle
@@ -40,7 +42,8 @@ def run_simulation(config_path, output_dir):
         nSteps = config["settings"]["nSteps"]
         tStart = config["settings"]["tStart"]
         tEnd = config["settings"]["tEnd"]
-        xStar = config["geometry"]["xStar"]
+        delta_t = (tEnd - tStart) / nSteps
+        x_star = config["geometry"]["x_star"]
         writeFrequency = config["IO"]["writeFrequency"]
         
         start_time = time.time()
@@ -50,8 +53,8 @@ def run_simulation(config_path, output_dir):
         try:
             logger.info(f"Loading mesh from {mshName}")
             mesh = meshio.read(mshName)
-            mesh = Mesh(mesh, xStar)
-            final_cell_data, cell_type_mapping = mesh.main_function()
+            mesh = Mesh(mesh, delta_t, x_star)
+            final_cell_data, cell_type_mapping, cell_with_fish = mesh.main_function()
             logger.info("Mesh processing completed successfully")
         except Exception as e:
             logger.error(f"Mesh processing failed: {str(e)}")
@@ -112,8 +115,31 @@ def run_simulation(config_path, output_dir):
                     # Create visualization
                     try:
                         triangulation = Triangulation(points[:, 0], points[:, 1], triangles)
+
+                        midpoints = np.mean(points[triangles], axis=1)
+
+                        # Define the range for coloring triangles red
+                        x_min, x_max = 0.0, 0.45
+                        y_min, y_max = 0.0, 0.2
+
+                        # Initialize face colors based on oil amounts
+                        face_colors = updated_oil_amounts.copy()
+
+                        # Set the color to red for triangles with midpoints in the specified range
+                        for i, midpoint in enumerate(midpoints):
+                            if x_min <= midpoint[0] <= x_max and y_min <= midpoint[1] <= y_max:
+                                face_colors[i] = -1  # Use a negative value as a marker for red
+                        
+
+                    # Normalize colors and set custom red color for marked triangles
+                        cmap = cm.get_cmap("viridis")
+                        norm = mcolors.Normalize(vmin=np.min(updated_oil_amounts), vmax=np.max(updated_oil_amounts))
+                        plot_colors = cmap(norm(face_colors))
+                        red_color = np.array([1, 0, 0, 1])  # RGBA for red
+                        plot_colors[face_colors == -1] = red_color
+
                         plt.figure(figsize=(8, 6))
-                        plt.tripcolor(triangulation, facecolors=updated_oil_amounts, 
+                        plt.tripcolor(triangulation, facecolors=plot_colors, 
                                     cmap="viridis", shading="flat")
                         plt.colorbar(label="Oil Amount")
                         plt.title(f"Oil Distribution at Step {step}")

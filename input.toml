@@ -1,7 +1,7 @@
 
 [settings]
 nSteps = 500 # Number of steps
-#tStart = 0.1 # Start time
+tStart = 0.1 # Start time
 tEnd = 0.2   # End time
 
 [geometry]

@@ -7,10 +7,11 @@ from src.Simulation.factory import CellFactory
 
 
 class Mesh:
-    def __init__(self, mesh, delta_t) -> None:
+    def __init__(self, mesh, delta_t, x_star) -> None:
         self._mesh = mesh
         self._cells = []
         self._delta_t = delta_t
+        self._x_star = x_star
 
     @property
     def mesh(self):
@@ -66,7 +67,7 @@ class Mesh:
                 velocity_fields[global_cell_index] = self.velocity_field(midpoints[global_cell_index])
 
         # Calculate oil values
-        oil_values = self.initial_oil(cell_points, point_coordinates)
+        oil_values = self.initial_oil(cell_points, point_coordinates, self._x_star)
 
         cell_neighbors = self.find_neighbors(face_to_cells)
 
@@ -110,13 +111,23 @@ class Mesh:
 
             final_cell_data[global_cell_index] = cell_data
 
+        cell_with_fish = {}  # Dictionary to store cells in the fish area
+
+        for global_cell_index, midpoint in midpoints.items():
+            # Check if the cell's midpoint is within the fish area
+            if 0.0 <= midpoint[0] <= 0.45 and 0.0 <= midpoint[1] <= 0.2:
+                # Add the cell's oil amount and midpoint to the dictionary
+                cell_with_fish[global_cell_index] = {
+                    'midpoint': midpoint,
+                    'oil_amount': oil_values.get(global_cell_index, 0),
+                }
+
         # Print or return the final cell data
         self.register_cell(self._cells, final_cell_data, cell_type_mapping)
 
-        return final_cell_data, cell_type_mapping
+        return final_cell_data, cell_type_mapping, cell_with_fish
 
-    def initial_oil(self, cell_points, point_coordinates):
-        x_star = np.array([0.35, 0.45])
+    def initial_oil(self, cell_points, point_coordinates, x_star):
         oil_values = {}
 
         for global_cell_index, cell_points in cell_points.items():
