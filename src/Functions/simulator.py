@@ -40,6 +40,7 @@ def run_simulation(config_path, output_dir):
         nSteps = config["settings"]["nSteps"]
         tStart = config["settings"]["tStart"]
         tEnd = config["settings"]["tEnd"]
+        xStar = config["geometry"]["xStar"]
         writeFrequency = config["IO"]["writeFrequency"]
         
         start_time = time.time()
@@ -49,7 +50,7 @@ def run_simulation(config_path, output_dir):
         try:
             logger.info(f"Loading mesh from {mshName}")
             mesh = meshio.read(mshName)
-            mesh = Mesh(mesh)
+            mesh = Mesh(mesh, xStar)
             final_cell_data, cell_type_mapping = mesh.main_function()
             logger.info("Mesh processing completed successfully")
         except Exception as e:
@@ -60,12 +61,12 @@ def run_simulation(config_path, output_dir):
         logger.info("Initializing simulation data structures")
         triangles = []
         in_oil_amount = []
-        points = mesh._mesh.points
+        points = mesh.mesh.points
         triangle_cell_indices = []
         
         # Process mesh data
         try:
-            for cell_type, cell_data in mesh._mesh.cells_dict.items():
+            for cell_type, cell_data in mesh.mesh.cells_dict.items():
                 for local_index, cell in enumerate(cell_data):
                     if len(cell) == 3:  # Only consider triangles
                         triangles.append(cell)
@@ -95,13 +96,13 @@ def run_simulation(config_path, output_dir):
             
             try:
                 # Update oil amounts
-                for cell in mesh._cells:
+                for cell in mesh.cells:
                     if isinstance(cell, Triangle):
                         cell.oil_amount = cell.update_oil_amount()
                 
                 # Collect updated amounts
                 for cell_index in triangle_cell_indices:
-                    updated_oil_amounts.append(mesh._cells[cell_index - 1].oil_amount)
+                    updated_oil_amounts.append(mesh.cells[cell_index - 1].oil_amount)
                 
                 updated_oil_amounts = np.array(updated_oil_amounts)
                 

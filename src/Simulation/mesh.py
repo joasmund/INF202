@@ -7,11 +7,19 @@ from src.Simulation.factory import CellFactory
 
 
 class Mesh:
-    def __init__(self, mesh) -> None:
+    def __init__(self, mesh, delta_t) -> None:
         self._mesh = mesh
+        self._cells = []
+
+    @property
+    def mesh(self):
+        return self._mesh
+
+    @property
+    def cells(self):
+        return self._cells
 
     def main_function(self):
-        self._cells = []  # List of all cells
         # Create a global cell index mapping
         global_index = 1
         cell_type_mapping = {}  # Maps (cell_type, local_index) to global_index
@@ -130,8 +138,6 @@ class Mesh:
             point2 = np.array(point_coordinates[cell[1]])
             point3 = np.array(point_coordinates[cell[2]])
             return (point1 + point2 + point3) / 3
-        else:
-            raise ValueError("Unsupported cell type: only vertex, line, and triangle are supported.")
 
     def velocity_field(self, midpoint):
         return np.array([midpoint[1] - 0.2 * midpoint[0], -midpoint[0]])
@@ -159,12 +165,11 @@ class Mesh:
         
         # Compute the normal vector
         normal = np.array([-direction[1], direction[0]])
-        # normal = normal / np.linalg.norm(normal)  # Normalize the normal vector
-        # 
-        # # Calculate the length of the edge
+
+        # Calculate the length of the edge
         edge_length = np.linalg.norm(direction)
-        # 
-        # # Scale the normal vector by the edge length
+         
+        # Scale the normal vector by the edge length
         normal *= edge_length
         
         # Calculate the midpoint of the face
