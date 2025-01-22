@@ -28,7 +28,7 @@ def run_simulation(config_path, output_dir):
         # Load complete configuration with defaults using the established logger
         config = load_config_with_defaults(config_path, logger)
         
-        # Continue with the rest of the simulation using the same logger
+        # Continue with simulation setup
         try:
             mshName = config["geometry"]["meshName"]
             logger.info(f"Using mesh file: {mshName}")

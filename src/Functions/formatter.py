@@ -44,7 +44,7 @@ def format_simulation_results(simulation_data, cell_indices):
     
     # Add oil amount data with cell IDs, using proper alignment
     for cell_id, amount in zip(cell_indices, simulation_data['final_oil_amounts']):
-        content.append(f"{cell_id:8d}    {amount:8.3f}")
+        content.append(f"{cell_id:8d}    {amount:8.8f}")
     
     # Calculate and add statistics about oil distribution
     oil_amounts = np.array(simulation_data['final_oil_amounts'])
@@ -52,10 +52,10 @@ def format_simulation_results(simulation_data, cell_indices):
         "",  # Empty line for separation
         "OIL DISTRIBUTION STATISTICS",
         "-" * 30,
-        f"Maximum Oil Amount: {np.max(oil_amounts):.3f} (Cell {cell_indices[np.argmax(oil_amounts)]})",
-        f"Minimum Oil Amount: {np.min(oil_amounts):.3f} (Cell {cell_indices[np.argmin(oil_amounts)]})",
-        f"Average Oil Amount: {np.mean(oil_amounts):.3f}",
-        f"Standard Deviation: {np.std(oil_amounts):.3f}",
+        f"Maximum Oil Amount: {np.max(oil_amounts):.5f} (Cell {cell_indices[np.argmax(oil_amounts)]})",
+        f"Minimum Oil Amount: {np.min(oil_amounts):.5f} (Cell {cell_indices[np.argmin(oil_amounts)]})",
+        f"Average Oil Amount: {np.mean(oil_amounts):.5f}",
+        f"Standard Deviation: {np.std(oil_amounts):.5f}",
         f"Total Number of Cells: {len(cell_indices)}"
     ])
     
