@@ -43,7 +43,7 @@ def run_simulation(config_path, output_dir):
         tStart = config["settings"]["tStart"]
         tEnd = config["settings"]["tEnd"]
         delta_t = (tEnd - tStart) / nSteps
-        x_star = config["geometry"]["x_star"]
+        x_star = config["geometry"]["xStar"]
         writeFrequency = config["IO"]["writeFrequency"]
         
         start_time = time.time()
