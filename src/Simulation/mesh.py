@@ -5,31 +5,29 @@ from numpy.linalg import norm
 from src.Simulation.cells import Line, Triangle, Vertex
 from src.Simulation.factory import CellFactory
 
-
 class Mesh:
-    def __init__(self, mesh) -> None:
+    def __init__(self, mesh, x_star, delta_t) -> None:
         self._mesh = mesh
+        self._cells = []
+        self._x_star = x_star
+        self._delta_t = delta_t
+
+    @property
+    def cells(self):
+        return self._cells
 
     def main_function(self):
-        self._cells = []  # List of all cells
-        # Create a global cell index mapping
-        global_index = 1
-        cell_type_mapping = {}  # Maps (cell_type, local_index) to global_index
+        global_index = 0
+        
+        # Maps (cell_type, local_index) to global_index
+        cell_type_mapping = {}
         face_to_cells = defaultdict(list)
-        cell_faces = {}  # Dictionary to store faces for each cell
-        cell_points = defaultdict(list)  # Maps global cell index to its points (nodes)
-        point_coordinates = defaultdict(list)  # Maps point index to the coordinates of that point
-        areas = defaultdict(list)
-        face_with_normal_vector = {}
-        midpoints = {}  # Store the midpoints of each cell
-        velocity_fields = {}
+
+        # Consolidated dictionary to store all cell data
+        final_cell_data = {}
 
         # Store the point coordinates
-        for i, point in enumerate(self._mesh.points):
-            point_coordinates[i] = point[:2].tolist()  # Store coordinates of each point
-
-        # To store the resulting dictionary with all the required information
-        final_cell_data = {}
+        point_coordinates = {i: point[:2].tolist() for i, point in enumerate(self._mesh.points)}
 
         for cell_type, cell_data in self._mesh.cells_dict.items():
             for local_index, cell in enumerate(cell_data):
@@ -38,171 +36,126 @@ class Mesh:
                 global_cell_index = global_index
                 global_index += 1
 
-                # Perform additional processing
-                num_nodes = len(cell)
+                # Initialize data for the current cell
+                final_cell_data[global_cell_index] = {
+                    "points": cell,
+                    "faces": [],
+                    "area": 0,
+                    "midpoint": None,
+                    "velocity_field": None,
+                    "normal_vectors_with_faces": {},
+                    "neighbors": [],
+                }
 
-                cell_points[global_cell_index] = cell  # Points are the nodes of the cell
-                self.find_faces(num_nodes, cell, global_cell_index, cell_faces, face_to_cells)
-                self.area(cell, global_cell_index, areas)
+                # Calculate cell faces
+                faces = self.find_faces(len(cell), cell)
+                final_cell_data[global_cell_index]["faces"] = faces
 
-                # Calculate the midpoint of the current cell
-                midpoints[global_cell_index] = self.midpoint(cell, point_coordinates)
+                # Map faces to cells
+                for face in faces:
+                    face_to_cells[face].append(global_cell_index)
 
-                # Calculate normal vectors for the faces of the current cell
-                for face in cell_faces[global_cell_index]:
-                    normal_vector = self.normal_vectors_with_faces(face, point_coordinates, midpoints[global_cell_index])
-                    face_with_normal_vector[face] = normal_vector
+                # Calculate cell area
+                final_cell_data[global_cell_index]["area"] = self.area(cell, point_coordinates)
 
-                # Now, use the midpoint of the current cell for the velocity field
-                velocity_fields[global_cell_index] = self.velocity_field(midpoints[global_cell_index])
+                # Calculate midpoint
+                final_cell_data[global_cell_index]["midpoint"] = self.midpoint(cell, point_coordinates)
+
+                # Calculate velocity field
+                final_cell_data[global_cell_index]["velocity_field"] = self.velocity_field(
+                    final_cell_data[global_cell_index]["midpoint"]
+                )
+
+        # Assign normal vectors to faces
+        for global_cell_index, cell_data in final_cell_data.items():
+            midpoint = cell_data["midpoint"]
+            for face in cell_data["faces"]:
+                normal_vector = self.normal_vectors_with_faces(face, point_coordinates, midpoint)
+                cell_data["normal_vectors_with_faces"][face] = normal_vector
 
         # Calculate oil values
-        oil_values = self.initial_oil(cell_points, point_coordinates)
+        oil_values = self.initial_oil(final_cell_data, self._x_star)
+        for global_cell_index, oil_value in oil_values.items():
+            final_cell_data[global_cell_index]["oil_amount"] = oil_value
 
+        # Calculate neighbors
         cell_neighbors = self.find_neighbors(face_to_cells)
-
-        # Create the final dictionary with all the requested info
-        for global_cell_index in cell_points.keys():
-            # Prepare the data for the current cell
-            cell_data = {
-                'oil_amount': (oil_values.get(global_cell_index, 0)),
-                'area': (areas.get(global_cell_index, 0)),
-                'faces': [
-                    (face_with_normal_vector.get(face)) 
-                    for face in cell_faces.get(global_cell_index, [])
-                ],
-                'velocity_field': ((velocity_fields.get(global_cell_index, np.array([0, 0])))),
-                'neighbors': []
-            }
-
-            # Adding details for each neighbor
-            for neighbor in cell_neighbors.get(global_cell_index, []):
-                # Get the faces shared between the current cell and the neighbor
+        for global_cell_index, neighbors in cell_neighbors.items():
+            for neighbor in neighbors:
                 shared_faces = [
-                    face for face in cell_faces[global_cell_index]
-                    if face in cell_faces.get(neighbor, [])
+                    face
+                    for face in final_cell_data[global_cell_index]["faces"]
+                    if face in final_cell_data[neighbor]["faces"]
                 ]
-                
-                # Get the neighbor's velocity field (we use the same computation as for the current cell)
-                neighbor_velocity_field = velocity_fields.get(neighbor, np.array([0, 0]))
-                neighbor_velocity_field_magnitude = (neighbor_velocity_field)
-
-                # Get the neighbor's oil amount
-                neighbor_oil_amount = oil_values.get(neighbor, 0)
-
-                # Add the neighbor's data
                 neighbor_data = {
-                    'neighbor_index': neighbor,
-                    'neighbor_faces': shared_faces,
-                    'neighbor_velocity_field': (neighbor_velocity_field_magnitude),
-                    'neighbor_oil_amount': (neighbor_oil_amount)
+                    "neighbor_index": neighbor,
+                    "neighbor_faces": shared_faces,
+                    "neighbor_velocity_field": final_cell_data[neighbor]["velocity_field"],
                 }
-                cell_data['neighbors'].append(neighbor_data)
+                final_cell_data[global_cell_index]["neighbors"].append(neighbor_data)
 
-            final_cell_data[global_cell_index] = cell_data
-
-        # Print or return the final cell data
+        # Register cells
         self.register_cell(self._cells, final_cell_data, cell_type_mapping)
-
         return final_cell_data, cell_type_mapping
 
-    def initial_oil(self, cell_points, point_coordinates):
-        x_star = np.array([0.35, 0.45])
+    def initial_oil(self, final_cell_data, x_star):
         oil_values = {}
-
-        for global_cell_index, cell_points in cell_points.items():
-            midpoint = self.midpoint(cell_points, point_coordinates)
+        for global_cell_index, cell_data in final_cell_data.items():
+            midpoint = cell_data["midpoint"]
             distance = norm(midpoint - x_star)
-            oil_value = np.exp(-distance**2 / 0.01)
-            oil_values[global_cell_index] = oil_value
-
+            oil_values[global_cell_index] = np.exp(-distance**2 / 0.01)
         return oil_values
 
     def midpoint(self, cell, point_coordinates):
-        if len(cell) == 1:  # Vertex
-            return np.array(point_coordinates[cell[0]])
-        elif len(cell) == 2:  # Line
-            point1 = np.array(point_coordinates[cell[0]])
-            point2 = np.array(point_coordinates[cell[1]])
-            return (point1 + point2) / 2
-        elif len(cell) == 3:  # Triangle
-            point1 = np.array(point_coordinates[cell[0]])
-            point2 = np.array(point_coordinates[cell[1]])
-            point3 = np.array(point_coordinates[cell[2]])
-            return (point1 + point2 + point3) / 3
-        else:
-            raise ValueError("Unsupported cell type: only vertex, line, and triangle are supported.")
+        points = np.array([point_coordinates[node] for node in cell])
+        return np.mean(points, axis=0)
 
     def velocity_field(self, midpoint):
         return np.array([midpoint[1] - 0.2 * midpoint[0], -midpoint[0]])
 
-    def area(self, cell, global_cell_index, areas):
-        if len(cell) == 3:  # Triangle
-            p1, p2, p3 = cell
-            x1, y1 = self._mesh.points[p1][:2]
-            x2, y2 = self._mesh.points[p2][:2]
-            x3, y3 = self._mesh.points[p3][:2]
-            area = 0.5 * abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2))
-            areas[global_cell_index] = area
+    def area(self, cell, point_coordinates):
+        if len(cell) == 3:
+            p1, p2, p3 = [point_coordinates[node] for node in cell]
+            x1, y1 = p1
+            x2, y2 = p2
+            x3, y3 = p3
+            return 0.5 * abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2))
+        return 0
 
-    
     def normal_vectors_with_faces(self, face, point_coordinates, triangle_midpoint):
         if len(face) != 2:
             return None
         
-        # Get points on the face
         point1 = np.array(point_coordinates[face[0]])
         point2 = np.array(point_coordinates[face[1]])
-
-        # Calculate the direction vector
         direction = point2 - point1
-        
-        # Compute the normal vector
         normal = np.array([-direction[1], direction[0]])
-        # normal = normal / np.linalg.norm(normal)  # Normalize the normal vector
-        # 
-        # # Calculate the length of the edge
-        edge_length = np.linalg.norm(direction)
-        # 
-        # # Scale the normal vector by the edge length
-        normal *= edge_length
         
-        # Calculate the midpoint of the face
         face_midpoint = (point1 + point2) / 2
-        
-        # Vector from triangle's midpoint to face midpoint
         vector_to_face_midpoint = face_midpoint - triangle_midpoint
         
-        # Check if the normal points outward
         if np.dot(normal, vector_to_face_midpoint) < 0:
-            normal = -normal  # Flip the normal if it's pointing inward
+            normal = -normal
 
-        return face, normal
+        return normal
 
-    def find_faces(self, num_nodes, cell, global_cell_index, cell_faces, face_to_cells):
+    def find_faces(self, num_nodes, cell):
         if num_nodes == 1:
-            faces = [tuple(sorted(cell))]
+            return [tuple(sorted(cell))]
         elif num_nodes == 2:
-            faces = [tuple(sorted(cell))]
+            return [tuple(sorted(cell))]
         elif num_nodes == 3:
-            faces = [
+            return [
                 tuple(sorted([cell[0], cell[1]])),
                 tuple(sorted([cell[1], cell[2]])),
                 tuple(sorted([cell[0], cell[2]])),
             ]
         else:
-            faces = []
-            for i in range(num_nodes):
-                for j in range(i + 1, num_nodes):
-                    faces.append(tuple(([cell[i], cell[j]])))
-
-        cell_faces[global_cell_index] = faces
-        for face in faces:
-            face_to_cells[face].append(global_cell_index)
+            return [tuple(sorted([cell[i], cell[j]])) for i in range(num_nodes) for j in range(i + 1, num_nodes)]
 
     def find_neighbors(self, face_to_cells):
         cell_neighbors = defaultdict(set)
-        for face, cells in face_to_cells.items():
+        for _, cells in face_to_cells.items():
             if len(cells) == 2:
                 cell_neighbors[cells[0]].add(cells[1])
                 cell_neighbors[cells[1]].add(cells[0])
@@ -213,30 +166,19 @@ class Mesh:
         cf.register("vertex", Vertex)
         cf.register("line", Line)
         cf.register("triangle", Triangle)
-
         for cell_type, cell_data in self._mesh.cells_dict.items():
             for local_index, _ in enumerate(cell_data):
                 global_cell_index = cell_type_mapping[(cell_type, local_index)]
                 cell_info = final_cell_data[global_cell_index]
-                
-                # Extract parameters for the cell
-                oil_amount = cell_info["oil_amount"]
-                area = cell_info["area"]
-                normal_vectors_with_faces = cell_info["faces"]
-                velocity_field = cell_info["velocity_field"]
-                neighbors = cell_info["neighbors"]
-
-                # Create the cell using CellFactory
                 cell_object = cf(
                     key=cell_type,
                     id=global_cell_index,
-                    oil_amount=oil_amount,
-                    area=area,
-                    normal_vectors_with_faces=normal_vectors_with_faces,
-                    faces=normal_vectors_with_faces,
-                    velocity_field=velocity_field,
-                    neighbors=neighbors,
-                    delta_t=0.01,  # Default delta_t
+                    oil_amount=cell_info["oil_amount"],
+                    area=cell_info["area"],
+                    normal_vectors_with_faces=cell_info["normal_vectors_with_faces"],
+                    faces=cell_info["faces"],
+                    velocity_field=cell_info["velocity_field"],
+                    neighbors=cell_info["neighbors"],
+                    delta_t=self._delta_t,
                 )
-                
                 cells.append(cell_object)

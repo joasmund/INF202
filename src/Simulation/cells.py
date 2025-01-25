@@ -20,6 +20,10 @@ class Vertex(Cell):
         super().__init__(id, oil_amount, area, normal_vectors_with_faces, faces, velocity_field, neighbors, delta_t)
 
     @property
+    def oil_amount(self):
+        return self._oil_amount
+
+    @property
     def id(self):
         return self._id
 
@@ -27,6 +31,14 @@ class Vertex(Cell):
 class Line(Cell):
     def __init__(self, id, oil_amount, area, normal_vectors_with_faces, faces, velocity_field, neighbors, delta_t) -> None:
         super().__init__(id, oil_amount, area, normal_vectors_with_faces, faces, velocity_field, neighbors, delta_t)
+
+    @property
+    def oil_amount(self):
+        return self._oil_amount
+
+    @property
+    def velocity_field(self):
+        return self._velocity_field
 
     @property
     def id(self):
@@ -57,40 +69,46 @@ class Triangle(Cell):
     def oil_amount(self, value):
         self._oil_amount = value
     
-    def update_oil_amount(self):
-        total_flux = 0  # Initialize the total flux for the current cell
+    def update_oil_amount(self, all_cells):
+        """
+        Update the oil amount in the current cell based on fluxes from neighbors.
+        
+        Parameters:
+        - all_cells: A list of all `Cell` objects (e.g., passed from the `Mesh` class).
+        """
+        # Initialize total flux for the current cell
+        total_flux = 0
 
-        for face, normal in self._normal_vectors_with_faces:
-            for ngh in self._neighbors:
-            # Find the matching face and normal vector for the neighbor
-                # Normalize and sort both face representations
-                face_normalized = sorted(map(int, face))  # Convert face to sorted list of integers
+        for ngh in self._neighbors:
+            # Fetch the actual neighbor Cell object using its index
+            neighbor_cell = all_cells[ngh["neighbor_index"]]
+            neighbor_oil_amount = neighbor_cell.oil_amount  # Use the neighbor's oil amount
+            neighbor_velocity_field = neighbor_cell.velocity_field
 
-                # print(self._id, face, normal)
-                # Flatten ngh['neighbor_faces'] if it contains tuples
-                neighbor_face_flattened = [int(vertex) for pair in ngh['neighbor_faces'] for vertex in pair]
-                neighbor_face_normalized = sorted(neighbor_face_flattened)  # Normalize neighbor faces
-                
-                if face_normalized == neighbor_face_normalized:  # Match the shared face
+            for face, normal in self._normal_vectors_with_faces.items():
+                # Normalize the face representation
+                face_normalized = tuple(sorted(map(int, face)))
+
+                # Normalize the neighbor's face
+                neighbor_face_flattened = [int(vertex) for pair in ngh["neighbor_faces"] for vertex in pair]
+                neighbor_face_normalized = tuple(sorted(neighbor_face_flattened))
+
+                if face_normalized == neighbor_face_normalized:
                     # Average velocity across the interface
-                    v_avg = 0.5 * (self._velocity_field + ngh['neighbor_velocity_field'])
-
-                    # print(f"{self._id}, Ui face: {face_normalized}, Neihgbor face: {neighbor_face_normalized}")
-                    # print(f"{self._id}, Ui velocity: {self._velocity_field}, Niehgbor velocity: {ngh['neighbor_velocity_field']}")
-                    # print(f"{self._id}, Average velocity: {v_avg}, Normal vector: {normal}")
+                    v_avg = 0.5 * (self._velocity_field + neighbor_velocity_field)
 
                     # Compute flux across the interface
                     flux_contribution = self.flux(
-                        self._oil_amount, 
-                        ngh['neighbor_oil_amount'], 
-                        normal, 
+                        self._oil_amount,
+                        neighbor_oil_amount,
+                        normal,
                         v_avg
                     )
 
                     # Accumulate the flux contribution
                     total_flux += flux_contribution
 
-        # Update the oil amount using the property setter
+        # Update the oil amount for the current cell
         return self._oil_amount - (self._delta_t / self._area) * total_flux
 
     def flux(self, u_i, u_ngh, nu, v):
@@ -109,5 +127,6 @@ class Triangle(Cell):
     def __str__(self) -> str:
         return (
             f"ID: {self._id}, Oil: {self._oil_amount}, Area: {self._area}, "
-            f"Faces: {self._faces}, Velocity: {self._velocity_field}, Neighbors: {self._neighbors}"
+            f"Faces: {self._normal_vectors_with_faces}"
+            f", Velocity: {self._velocity_field}, Neighbors: {self._neighbors}"
         )

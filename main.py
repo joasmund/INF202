@@ -1,4 +1,3 @@
-
 import os
 import time
 import meshio
@@ -13,25 +12,28 @@ from src.Simulation.mesh import Mesh
 # Load configuration from toml file
 config = toml.load("input.toml")
 mshName = config["geometry"]["meshName"]
+x_star = config["geometry"]["xStar"]
+n_steps = config["settings"]["nSteps"]
+t_start = config["settings"]["tStart"]
+t_end = config["settings"]["tEnd"]
 
-nSteps = 500  # Number of steps
-tStart = 0.1  # Start time
-tEnd = 0.2    # End time
+delta_t = (t_end - t_start) / n_steps
+
 
 if __name__ == "__main__":
     start_time = time.time()
 
-    # Create the mesh and compute neighbors
+    # Create the mesh and compute data
     mesh = meshio.read(mshName)
-    mesh = Mesh(mesh)
+    mesh = Mesh(mesh, x_star, delta_t)
     final_cell_data, cell_type_mapping = mesh.main_function()
 
-    # for cell in mesh._cells:
-    #     print(cell)
     # Initialize lists for storing the triangles and oil amounts
     triangles = []
     in_oil_amount = []
-    points = mesh._mesh.points  # Get the points from the mesh
+
+    # Get the points from the mesh
+    points = mesh._mesh.points 
 
     # Store triangle cell data and initial oil amounts in a single pass
     triangle_cell_indices = []  # To map oil amounts to triangles
@@ -51,12 +53,9 @@ if __name__ == "__main__":
     output_dir = "./plots"
     os.makedirs(output_dir, exist_ok=True)
 
-    # Calculate delta_t for each time step
-    delta_t = (tEnd - tStart) / nSteps
-
     # Perform computations over nSteps (update oil amounts directly)
-    for step in range(nSteps):
-        current_time = tStart + step * delta_t
+    for step in range(n_steps + 1):
+        current_time = t_start + step * delta_t
 
         # Create a temporary array to store updated oil amounts for triangles
         updated_oil_amounts = []
@@ -64,11 +63,11 @@ if __name__ == "__main__":
         # Update oil amounts for each triangular cell
         for cell in mesh._cells:
             if isinstance(cell, Triangle):
-                cell.oil_amount = cell.update_oil_amount()
+                cell.oil_amount = cell.update_oil_amount(mesh.cells)
 
-        # Collect updated oil amounts for triangular cells only
+        # Collect updated oil amounts
         for cell_index in triangle_cell_indices:
-            updated_oil_amounts.append(mesh._cells[cell_index - 1].oil_amount)
+            updated_oil_amounts.append(mesh._cells[cell_index].oil_amount)
 
         updated_oil_amounts = np.array(updated_oil_amounts)
 
@@ -81,7 +80,7 @@ if __name__ == "__main__":
             triangulation = Triangulation(points[:, 0], points[:, 1], triangles)
 
             # Generate the plot
-            plt.figure(figsize=(8, 6))
+            plt.figure(figsize=(16, 12))
             plt.tripcolor(triangulation, facecolors=updated_oil_amounts, cmap="viridis", shading="flat")
             plt.colorbar(label="Oil Amount")
             plt.title(f"Oil Distribution at Step {step}")
@@ -91,7 +90,7 @@ if __name__ == "__main__":
             # Save the plot
             plot_filename = os.path.join(output_dir, f"step_{step:04d}.png")
             plt.savefig(plot_filename)
-            plt.close()  # Close the figure to save memory
+            plt.close()
 
     end_time = time.time()
     print(f"Execution time: {end_time - start_time} seconds")
